@@ -37,3 +37,8 @@ jobs:
       uses: sarisia/actions-status-discord@v1
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        title: "CI"
+        description: "CI Successful"
+        color: 0x0000ff
+        username: CI Bot
