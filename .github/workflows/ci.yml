@@ -31,3 +31,11 @@ jobs:
         DEBUG: ${{ secrets.DEBUG }}
       run: |
         python manage.py test
+
+    - name: Webhook
+      if: always()
+      uses: actions/discord-action@master
+      with:
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        message: CI ${{ job.status }}.
