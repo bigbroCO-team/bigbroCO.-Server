@@ -34,7 +34,7 @@ jobs:
 
     - name: Webhook
       if: always()
-      uses: actions/discord-action@master
+      uses: appleboy/discord-action@master
       with:
         webhook: ${{ secrets.DISCORD_WEBHOOK }}
         status: ${{ job.status }}
