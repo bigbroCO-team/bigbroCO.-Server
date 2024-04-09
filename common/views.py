@@ -2,7 +2,7 @@ from .serilizers import CustomerSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .other.JwtHandler import JwtHandler
+from others.Jwt.JwtHandler import JwtHandler
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 
@@ -28,4 +28,3 @@ class LoginView(APIView):
 class LogoutView(APIView):
     def delete(self, request: object) -> Response:
         return JwtHandler.deleteToken()
-

@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ["*"]
 
 
 AUTH_USER_MODEL = 'common.Customer'
+JWT_PAYLOAD_HANDLER = 'bigbroServer.utils.jwt.jwtPayloadHandler.jwtPayloadHandler'
 
 # Application definition
 
