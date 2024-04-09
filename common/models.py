@@ -12,8 +12,8 @@ class Customer(AbstractUser):
         verbose_name='email address')
     phone_number = PhoneNumberField(
         unique=True,
-        null=False,
-        blank=False,
+        null=True,
+        blank=True,
         verbose_name='phone number')
 
     def __str__(self):
