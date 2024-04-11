@@ -16,7 +16,7 @@ class SignupView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SigninView(APIView):
+class LoginView(APIView):
     def post(self, request):
         user = authenticate(username=request.data.get("username"), password=request.data.get("password"))
         if user is not None:
@@ -24,7 +24,7 @@ class SigninView(APIView):
         return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SignoutView(APIView):
+class LogoutView(APIView):
     def delete(self, request):
         return JWToken.DeleteToken()
 
