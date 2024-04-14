@@ -27,8 +27,8 @@ jobs:
         pip install -r requirements.txt
     - name: Set up environment variables
       env:
-        SECRET_KEY: ${{ secrets.DUMMY_SECRET_KEY }}
-        DEBUG: False
+        SECRET_KEY: "d0^pva3b0i&(4zv#o#_jscd(!k_5%#mefdx50-k#-=t(94vz2k"
+        DEBUG: "False"
     - name: Run Tests
       run: |
         python manage.py test
