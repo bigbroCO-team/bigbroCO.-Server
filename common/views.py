@@ -1,47 +1,52 @@
-from .serilizers import CustomerSerializer
+import datetime
+import jwt
+from .serializers import CustomerSerializer
 from rest_framework.views import APIView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from django.contrib.auth import authenticate
+from .models import Customer
+from rest_framework.exceptions import AuthenticationFailed
+from config.settings import SECRET_KEY
 
 
 # Create your views here.
 class SignupView(APIView):
-    def post(self, request):
+    def post(self, request: object) -> Response:
         serializer = CustomerSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return JWToken.SetToken(user=user)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 class LoginView(APIView):
-    def post(self, request):
-        user = authenticate(username=request.data.get("username"), password=request.data.get("password"))
-        if user is not None:
-            return JWToken.SetToken(user=user)
-        return Response({}, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request: object) -> Response:
+        username = request.data['username']
+        password = request.data['password']
+
+        user = Customer.objects.filter(username=username).first()
+
+        if user is None:
+            raise AuthenticationFailed('Login fail')
+
+        if not user.check_password(password):
+            raise AuthenticationFailed('Login fail')
+
+        payload = {
+            'username': user.username,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=3),
+            "iat": datetime.datetime.utcnow()
+        }
+
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+
+        response = Response()
+        response.set_cookie(key='token', value=token, httponly=True)
+
+        return response
 
 
 class LogoutView(APIView):
-    def delete(self, request):
-        return JWToken.DeleteToken()
-
-
-class JWToken():
-    def SetToken(user):
-        res = Response({}, status=status.HTTP_200_OK)
-        token = TokenObtainPairSerializer.get_token(user)
-        refreshToken = str(token)
-        accessToken = str(token.access_token)
-        res = Response({}, status=status.HTTP_200_OK)
-        res.set_cookie("accessToken", accessToken, httponly=True)
-        res.set_cookie("refreshToken", refreshToken, httponly=True)
-        return res
-
-    def DeleteToken(self):
-        res = Response({}, status=status.HTTP_202_ACCEPTED)
-        res.delete_cookie("accessToken")
-        res.delete_cookie("refreshToken")
-        return res
+    def delete(self, request: object) -> Response:
+        response = Response()
+        response.delete_cookie(key='token')
+        return response
