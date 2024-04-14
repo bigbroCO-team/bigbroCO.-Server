@@ -27,7 +27,7 @@ jobs:
         pip install -r requirements.txt
     - name: Set up environment variables
       env:
-        DJANGO_SECRET_KEY: ${{ secrets.DUMMY_SECRET_KEY }}
+        SECRET_KEY: ${{ secrets.DUMMY_SECRET_KEY }}
         DEBUG: False
     - name: Run Tests
       run: |
