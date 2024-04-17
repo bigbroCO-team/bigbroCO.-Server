@@ -23,4 +23,5 @@ urlpatterns = [
 
 
     path('api/', include('common.urls')),
+    path('address/', include('address.urls'))
 ]

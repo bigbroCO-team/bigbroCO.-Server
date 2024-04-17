@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'common',
     'product',
+    'address',
 ]
 
 AUTH_USER_MODEL = 'common.Customer'
