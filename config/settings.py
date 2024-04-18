@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     'phonenumber_field',
 
     'common',
-    'product',
     'address',
+    'cart',
+    'wishlist',
+    'product'
 ]
 
 AUTH_USER_MODEL = 'common.Customer'

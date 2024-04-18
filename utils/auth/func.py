@@ -8,7 +8,7 @@ from config.settings import SECRET_KEY
 def IsAuthenticated(func):
     @wraps(func)
     def wrapper(self, request, *args, **kwargs):
-        token = request.COOKIES.get('token')
+        token = request.COOKIES.get('access')
 
         if not token:
             raise AuthenticationFailed('Token is missing')

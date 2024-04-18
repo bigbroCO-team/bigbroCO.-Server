@@ -30,16 +30,23 @@ class LoginView(APIView):
         if not user.check_password(password):
             raise AuthenticationFailed('Login fail')
 
-        payload = {
+        accessPayload = {
             'username': user.username,
             "exp": datetime.datetime.utcnow() + datetime.timedelta(days=3),
             "iat": datetime.datetime.utcnow()
         }
+        access = jwt.encode(accessPayload, SECRET_KEY, algorithm='HS256')
 
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        refreshPayload = {
+            'username': user.username,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(days=30),
+            "iat": datetime.datetime.utcnow()
+        }
+        refresh = jwt.encode(refreshPayload, SECRET_KEY, algorithm='HS256')
 
         response = Response()
-        response.set_cookie(key='token', value=token, httponly=True)
+        response.set_cookie(key='access', value=access, httponly=True)
+        response.set_cookie(key='refresh', value=refresh, httponly=True)
 
         return response
 
@@ -47,5 +54,6 @@ class LoginView(APIView):
 class LogoutView(APIView):
     def delete(self, request: object) -> Response:
         response = Response()
-        response.delete_cookie(key='token')
+        response.delete_cookie(key='access')
+        response.delete_cookie(key='refresh')
         return response
