@@ -7,11 +7,12 @@ from config.settings import SECRET_KEY
 from .serializers import AddressSerializer
 from common.models import Customer
 
+
 # Create your views here.
 class AddressView(APIView):
     @IsAuthenticated
     def get(self, request: object) -> Response:
-        token = request.COOKIES.get('token')
+        token = request.COOKIES.get('access')
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
 
         username = payload.get('username')
@@ -26,7 +27,7 @@ class AddressView(APIView):
         serializer = AddressSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        token = request.COOKIES.get('token')
+        token = request.COOKIES.get('access')
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
 
         user = Customer.objects.filter(username=payload.get('username')).first()
@@ -34,4 +35,4 @@ class AddressView(APIView):
 
         serializer.save()
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data)

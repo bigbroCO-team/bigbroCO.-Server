@@ -5,4 +5,4 @@ from address.models import Address
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = '__all__'
+        fields = ('name', 'zipcode', 'address', 'detail', 'phone', 'request')

@@ -25,7 +25,6 @@ def IsAuthenticated(func):
             raise AuthenticationFailed('Token is expired')
         except Exception as e:
             raise AuthenticationFailed(str(e))
-
         return func(self, request, *args, **kwargs)
 
     return wrapper

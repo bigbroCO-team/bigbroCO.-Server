@@ -5,10 +5,10 @@ from rest_framework import serializers
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = "__all__"
+        fields = ('username', 'password')
 
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'read_only': True}
         }
 
     def create(self, validated_data):
@@ -19,5 +19,3 @@ class CustomerSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-
-

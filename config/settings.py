@@ -45,10 +45,22 @@ INSTALLED_APPS = [
 
     'common',
     'address',
-    'cart',
-    'wishlist',
-    'product'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=60),
+    'SIGNING_KEY': SECRET_KEY,
+    'ALGORITHM': 'HS256',
+    'AUTH_HEADER_TYPES': ('JWT',),
+}
+
 
 AUTH_USER_MODEL = 'common.Customer'
 
