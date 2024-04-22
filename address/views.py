@@ -1,7 +1,6 @@
 import jwt
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from utils.auth.func import IsAuthenticated
 from .models import Address
 from config.settings import SECRET_KEY
 from .serializers import AddressSerializer
@@ -10,7 +9,6 @@ from common.models import Customer
 
 # Create your views here.
 class AddressView(APIView):
-    @IsAuthenticated
     def get(self, request: object) -> Response:
         token = request.COOKIES.get('access')
         payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
@@ -22,7 +20,6 @@ class AddressView(APIView):
         serializer = AddressSerializer(instance=address)
         return Response(serializer.data)
 
-    @IsAuthenticated
     def post(self, request: object) -> Response:
         serializer = AddressSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
