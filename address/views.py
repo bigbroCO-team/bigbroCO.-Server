@@ -5,31 +5,27 @@ from .models import Address
 from config.settings import SECRET_KEY
 from .serializers import AddressSerializer
 from common.models import Customer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 
 
 # Create your views here.
 class AddressView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request: object) -> Response:
-        token = request.COOKIES.get('access')
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-
-        username = payload.get('username')
-        user = Customer.objects.filter(username=username).first()
-
-        address = Address.objects.filter(customer=user).first()
-        serializer = AddressSerializer(instance=address)
+        address = Address.objects.filter(customer=request.user)
+        serializer = AddressSerializer(instance=address, many=True)
         return Response(serializer.data)
 
     def post(self, request: object) -> Response:
+        user = Customer.objects.filter(username=request.user).first()
+
         serializer = AddressSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
-        token = request.COOKIES.get('access')
-        payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-
-        user = Customer.objects.filter(username=payload.get('username')).first()
         serializer.validated_data['customer'] = user
-
         serializer.save()
 
         return Response(serializer.data)
