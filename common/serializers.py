@@ -8,7 +8,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = ('username', 'password')
 
         extra_kwargs = {
-            'password': {'read_only': True}
+            'password': {'write_only': True}
         }
 
     def create(self, validated_data):
