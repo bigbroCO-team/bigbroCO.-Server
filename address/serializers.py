@@ -6,3 +6,7 @@ class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = ('id', 'name', 'zipcode', 'address', 'detail', 'phone', 'request')
+
+    extra_kwargs = {
+        'id': {'read_only': True}
+    }
