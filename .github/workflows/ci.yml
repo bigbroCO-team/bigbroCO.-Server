@@ -2,9 +2,9 @@ name: Django CI
 
 on:
   push:
-    branches: [ "*" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "*" ]
+    branches: [ "develop" ]
 
 jobs:
   build:
@@ -26,10 +26,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: env
-      uses: actions/setup-python@v2
-      env:
-        SECRET_KEY: ${{ secrets.DUMMY_SECRET_KEY }}
-        DEBUG: "False"
+      run: |
+        echo "SECRET_KEY=${{ secrets.DUMMY_SECRET_KEY }}" >> $GITHUB_ENV
+        echo "DEBUG=False" >> $GITHUB_ENV
     - name: Run Tests
       run: |
         python manage.py test
