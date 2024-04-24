@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'common',
     'address',
+    'product'
 ]
 
 REST_FRAMEWORK = {
