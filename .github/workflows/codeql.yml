@@ -1,10 +1,10 @@
-name: Django CI
+name: codeQL test
 
 on:
   push:
-    branches: [ "develop" ]
+    branches: [ "*" ]
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "*" ]
 
 jobs:
   build:
@@ -25,10 +25,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Set up environment variables
-      env:
-        SECRET_KEY: "d0^pva3b0i&(4zv#o#_jscd(!k_5%#mefdx50-k#-=t(94vz2k"
-        DEBUG: "False"
+    - name: env
+      run: |
+        echo "SECRET_KEY=${{ secrets.DUMMY_SECRET_KEY }}" >> $GITHUB_ENV
+        echo "DEBUG=False" >> $GITHUB_ENV
     - name: Run Tests
       run: |
         python manage.py test
