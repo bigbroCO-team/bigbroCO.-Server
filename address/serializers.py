@@ -5,7 +5,7 @@ from address.models import Address
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = ('id', 'name', 'zipcode', 'address', 'detail', 'phone', 'request')
+        fields = ('id', 'name', 'zipcode', 'address', 'detail', 'request')
 
     extra_kwargs = {
         'id': {'read_only': True}
