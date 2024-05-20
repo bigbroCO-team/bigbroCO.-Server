@@ -1,4 +1,4 @@
-from .models import Customer
+from .models import Customer, Image
 from rest_framework import serializers
 
 
@@ -22,3 +22,14 @@ class SignupSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+
+class ImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Image
+        fields = ('id', 'image')
+
+        def get_photo_url(self, obj):
+            request = self.context.get('request')
+            photo_url = obj.fingerprint.url
+            return request.build_absolute_uri(photo_url)
