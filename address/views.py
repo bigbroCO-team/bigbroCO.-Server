@@ -20,7 +20,7 @@ class AddressView(APIView):
         return Response(serializer.data)
 
     def post(self, request: object) -> Response:
-        user = Customer.objects.get(username=request.user).first()
+        user = Customer.objects.get(username=request.user)
 
         serializer = AddressSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -1,5 +1,4 @@
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 from common.models import Customer
 
 
@@ -12,7 +11,6 @@ class Address(models.Model):
     zipcode = models.IntegerField(null=False)
     address = models.TextField(null=False)
     detail = models.TextField(null=False)
-    phone = PhoneNumberField(null=False)
     request = models.TextField(null=False)
 
     def __str__(self):
