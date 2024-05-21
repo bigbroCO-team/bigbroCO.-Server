@@ -16,12 +16,12 @@ class Category(models.Model):
 
 
 class Size(models.IntegerChoices):
-    XS = 90, 'XS'
-    X = 95, 'X'
-    L = 100, 'L'
-    XL = 105, 'XL'
-    XXL = 110, 'XXL'
-    XXXL = 115, 'XXXL'
+    XS = 85, 'XS'
+    X = 90, 'X'
+    L = 95, 'L'
+    XL = 100, 'XL'
+    XXL = 105, 'XXL'
+    XXXL = 110, 'XXXL'
 
 
 class Product(models.Model):
@@ -37,10 +37,10 @@ class Product(models.Model):
     onsale = models.BooleanField(default=False)
     discount = models.FloatField(default=0)
 
-    img1 = models.URLField(),
-    img2 = models.URLField(),
-    img3 = models.URLField(),
-    img4 = models.URLField(),
+    img1 = models.URLField()
+    img2 = models.URLField()
+    img3 = models.URLField()
+    img4 = models.URLField()
     img5 = models.URLField()
 
 

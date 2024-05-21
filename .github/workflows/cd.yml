@@ -1,0 +1,32 @@
+name: Django CD
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check
+        uses: actions/checkout@v3
+
+      - name: ssh
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          secript: |
+            set -e
+            cd /app/bigbroCO.-Server
+            git pull origin develop
+            docker stop bigbro || true
+            docker rm bigbro || true
+            cp /env/.env ./
+            docker build -t bigbro .
+            docker run -d -it -p 80:8000 --name bigbro --env-file .env bigbro
