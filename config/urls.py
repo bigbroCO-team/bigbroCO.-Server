@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from common.views import UploadView
+from product.views import ProductView, CategoryView
 
 
 urlpatterns = [
@@ -25,4 +26,7 @@ urlpatterns = [
 
     path('auth/', include('common.urls')),
     path('address/', include('address.urls')),
+
+    path('product/', ProductView.as_view()),
+    path('category/', CategoryView.as_view()),
 ]

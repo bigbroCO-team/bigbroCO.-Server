@@ -1,8 +1,6 @@
-import jwt
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Address
-from config.settings import SECRET_KEY
 from .serializers import AddressSerializer
 from common.models import Customer
 from rest_framework.permissions import IsAuthenticated
