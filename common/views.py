@@ -48,7 +48,7 @@ class UploadView(APIView):
 
         path = f'{str(uuid4())}{extension}'
         save = default_storage.save(os.path.join(settings.MEDIA_ROOT, path), image)
-        s3path = f'https://{AWS_S3_INSTANCE_URL}/{AWS_STORAGE_BUCKET_NAME}/{save}'
+        s3path = f'https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_INSTANCE_URL}/{save}'
 
         Image.objects.create(url=s3path)
 

@@ -10,4 +10,4 @@ class Customer(AbstractUser):
 
 class Image(models.Model):
     id = models.AutoField(primary_key=True)
-    url = models.TextField(default='<URL>')
+    url = models.URLField()
