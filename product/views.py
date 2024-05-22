@@ -27,14 +27,14 @@ class ProductView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request: object, pk: int) -> Response:
-        products = get_object_or_404(Product, pk=pk)
+        products = get_object_or_404(Product, id=pk)
         serializer = ProductSerializer(Product, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request: object, pk: int) -> Response:
-        products = get_object_or_404(Product, pk=pk)
+        products = get_object_or_404(Product, id=pk)
         products.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -55,13 +55,13 @@ class CategoryView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request: object, pk: int) -> Response:
-        category = get_object_or_404(Category, pk=pk)
+        category = get_object_or_404(Category, id=pk)
         serializer = CategorySerializer(category, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request: object, pk: int) -> Response:
-        category = get_object_or_404(Category, pk=pk)
+        category = get_object_or_404(Category, id=pk)
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
