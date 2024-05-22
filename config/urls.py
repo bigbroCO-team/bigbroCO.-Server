@@ -27,6 +27,5 @@ urlpatterns = [
     path('auth/', include('common.urls')),
     path('address/', include('address.urls')),
 
-    path('product/', ProductView.as_view()),
-    path('category/', CategoryView.as_view()),
+    path('product/', include('product.urls')),
 ]
