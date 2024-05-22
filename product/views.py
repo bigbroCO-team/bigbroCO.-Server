@@ -1,10 +1,13 @@
 from django.shortcuts import render
+from rest_framework import status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from product.models import Product, Category
 from product.serializers import ProductSerializer, CategorySerializer
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -15,17 +18,50 @@ class ProductView(APIView):
     def get(self, request: object) -> Response:
         products = Product.objects.all()
         serializer = ProductSerializer(instance=products, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: object) -> Response:
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def put(self, request: object, pk: int) -> Response:
+        products = get_object_or_404(Product, pk=pk)
+        serializer = ProductSerializer(Product, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request: object, pk: int) -> Response:
+        products = get_object_or_404(Product, pk=pk)
+        products.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class CategoryView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
     def get(self, request: object) -> Response:
         categories = Category.objects.all()
         serializer = CategorySerializer(instance=categories, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request: object) -> Response:
+        serializer = CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def put(self, request: object, pk: int) -> Response:
+        category = get_object_or_404(Category, pk=pk)
+        serializer = CategorySerializer(category, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request: object, pk: int) -> Response:
+        category = get_object_or_404(Category, pk=pk)
+        category.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

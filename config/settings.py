@@ -43,10 +43,12 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'storages',
     'debug_toolbar',
+    'drf_yasg'
 
     'common',
     'address',
-    'product'
+    'product',
+    'order'
 ]
 
 REST_FRAMEWORK = {
