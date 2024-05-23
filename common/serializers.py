@@ -2,7 +2,6 @@ from .models import Customer, Image
 from rest_framework import serializers
 
 
-
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
@@ -10,6 +9,9 @@ class SignupSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             'password': {'write_only': True},
+            'email': {'required': True},
+            'last_name': {'required': True},
+            'phone': {'required': True},
         }
 
     def create(self, validated_data):

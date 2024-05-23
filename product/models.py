@@ -3,16 +3,9 @@ from common.models import Customer
 
 
 # Create your models here.
-class CName(models.TextChoices):
-    CBWAS = 'CBWAS'
-    BIGBRO = 'BIGBRO'
-    GONGNEWGI = 'GONGNEW'
-    SCULFEE = 'SCULFEE'
-
-
 class Category(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.TextField(choices=CName)
+    name = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
@@ -31,7 +24,7 @@ class Product(models.Model):
     id = models.AutoField(primary_key=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     price = models.IntegerField()
     stock = models.IntegerField()
     description = models.TextField()
