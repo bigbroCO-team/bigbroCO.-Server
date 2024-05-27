@@ -11,24 +11,20 @@ class Category(models.Model):
         return self.name
 
 
-class Size(models.IntegerChoices):
-    XS = 85, 'XS'
-    X = 90, 'X'
-    L = 95, 'L'
-    XL = 100, 'XL'
-    XXL = 105, 'XXL'
-    XXXL = 110, 'XXXL'
+class Size(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50)
 
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    size = models.ForeignKey(Size, on_delete=models.PROTECT)
 
     name = models.CharField(max_length=50, unique=True)
     price = models.IntegerField()
     stock = models.IntegerField()
     description = models.TextField()
-    size = models.IntegerField(choices=Size.choices, null=True)
     date = models.DateField(auto_now_add=True)
     onsale = models.BooleanField(default=False)
     discount = models.FloatField(default=0)
@@ -56,3 +52,6 @@ class Rating(models.Model):
 
     def __str__(self):
         return str(self.id) + self.user.username
+
+    class Meta:
+        unique_together = (('product', 'user'),)
