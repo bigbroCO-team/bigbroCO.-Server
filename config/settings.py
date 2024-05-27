@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'common',
     'address',
     'product',
-    'order'
+    'order',
+    'payments'
 ]
 
 REST_FRAMEWORK = {
@@ -136,6 +137,7 @@ AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 AWS_S3_FILE_OVERWRITE = False
 AWS_S3_INSTANCE_URL = os.getenv('AWS_S3_INSTANCE_URL')
 
+PAYMENTS_KEY = os.getenv("PAYMENTS_KEY")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

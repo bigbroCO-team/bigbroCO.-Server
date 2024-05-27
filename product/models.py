@@ -29,7 +29,7 @@ class Product(models.Model):
     onsale = models.BooleanField(default=False)
     discount = models.FloatField(default=0)
 
-    img1 = models.URLField(default='https://test-bigbro-bucket.s3.ap-northeast-2.amazonaws.com/images/161764121_342336863872451_1790344446721071304_n.jpg', null=False)
+    img1 = models.URLField(default='DAC17638-6429-4172-9AB7-35F4313C2394_1_105_c-removebg-preview (2).png', null=False)
     img2 = models.URLField(default=None, null=True)
     img3 = models.URLField(default=None, null=True)
     img4 = models.URLField(default=None, null=True)

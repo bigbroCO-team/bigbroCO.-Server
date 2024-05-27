@@ -28,7 +28,7 @@ class ProductView(APIView):
 
     def put(self, request: object, pk: int) -> Response:
         products = get_object_or_404(Product, id=pk)
-        serializer = ProductSerializer(Product, data=request.data)
+        serializer = ProductSerializer(products, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
