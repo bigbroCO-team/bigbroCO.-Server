@@ -139,6 +139,8 @@ AWS_S3_INSTANCE_URL = os.getenv('AWS_S3_INSTANCE_URL')
 
 PAYMENTS_KEY = os.getenv("PAYMENTS_KEY")
 
+DEFAULT_IMAGE_URL = 'DAC17638-6429-4172-9AB7-35F4313C2394_1_105_c-removebg-preview (2).png'
+
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

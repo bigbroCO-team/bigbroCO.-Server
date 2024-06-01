@@ -17,9 +17,9 @@ class AddressView(APIView):
 
     def get(self, request: object, pk=None) -> Response:
         if pk:
-            address = get_object_or_404(Address, customer=request.user, id=pk)
+            address = Address.objects.filter(customer=request.user, id=pk)
         else:
-            address = get_object_or_404(Address, customer=request.user)
+            address = Address.objects.filter(customer=request.user)
 
         serializer = AddressSerializer(instance=address, many=False if pk else True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -50,7 +50,6 @@ class AddressView(APIView):
         orders = Order.objects.filter(customer=request.user, address=pk, status__in=('SHIPPED', 'PROCESSING', 'PENDING'))
         if orders.exists():
             return Response('Processing order exists', status=status.HTTP_400_BAD_REQUEST)
-
-        address = get_object_or_404(Address, customer=request.user, id=pk)
+        address = get_object_or_404(Address, id=pk, customer=request.user)
         address.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

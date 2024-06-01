@@ -12,6 +12,3 @@ class Address(models.Model):
     address = models.TextField(null=False)
     detail = models.TextField(null=False)
     request = models.TextField(null=False)
-
-    def __str__(self):
-        return self.customer.username
