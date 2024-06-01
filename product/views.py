@@ -44,6 +44,9 @@ class ProductView(APIView):
 
 
 class RatingView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
     def get(self, request: object, pk: int) -> Response:
         rating = Rating.objects.filter(id=pk)
         if not rating.exists():
@@ -66,3 +69,15 @@ class RatingView(APIView):
         serializer.validated_data['customer'] = request.user
         serializer.save()
         return Response(status=status.HTTP_200_OK)
+
+    def put(self, request: object, pk: int) -> Response:
+        rating = get_object_or_404(Rating, id=pk, customer=request.user)
+        serializer = ProductSerializer(rating, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request: object, pk: int) -> Response:
+        rating = get_object_or_404(Rating, id=pk, customer=request.user)
+        rating.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

@@ -6,4 +6,5 @@ urlpatterns = [
     path('<int:pk>/', ProductView.as_view()),
 
     path('rating/', RatingView.as_view()),
+    path('rating/<int:pk>/', RatingView.as_view()),
 ]
