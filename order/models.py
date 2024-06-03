@@ -17,8 +17,7 @@ class Status(models.TextChoices):
 
 
 class Order(models.Model):
-    id = models.AutoField(primary_key=True)
-    uuid = models.UUIDField(default=uuid.uuid4(), editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     customer = models.ForeignKey(Customer, on_delete=models.SET_DEFAULT, default="Anonymous")
     product = models.ManyToManyField(Product)
     address = models.ForeignKey(Address, on_delete=models.SET_DEFAULT, default="Deleted address")

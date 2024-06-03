@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from common.models import Customer
 from config.settings import DEFAULT_IMAGE_URL
@@ -11,7 +13,7 @@ class Product(models.Model):
         GONGNEWGI = 'GONGNEWGI'
         SCULFEE = 'SCULFEE'
 
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     name = models.CharField(max_length=50, unique=True)
     price = models.IntegerField()
@@ -24,13 +26,13 @@ class Product(models.Model):
 
 
 class Option(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     name = models.CharField(max_length=50, unique=True)
 
 
 class Image(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     url = models.URLField(default=DEFAULT_IMAGE_URL, null=False)
 
@@ -44,7 +46,7 @@ class Value(models.IntegerChoices):
 
 
 class Rating(models.Model):
-    id = models.AutoField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(Customer, on_delete=models.CASCADE)
     value = models.IntegerField(choices=Value.choices)
