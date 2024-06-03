@@ -1,14 +1,12 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from order.models import Order
-from product.models import Product, Rating
-from product.serializers import ProductSerializer, RatingSerializer
+from product.models import Product, Category
+from product.serializers import ProductSerializer, CategorySerializer
 from django.shortcuts import get_object_or_404
-from django.db.models import Avg
 
 
 # Create your views here.
@@ -27,6 +25,7 @@ class ProductView(APIView):
     def post(self, request: object) -> Response:
         serializer = ProductSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        serializer.validated_data['seller'] = request.user
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -43,41 +42,21 @@ class ProductView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class RatingView(APIView):
+class CategoryView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
 
-    def get(self, request: object, pk: int) -> Response:
-        rating = Rating.objects.filter(id=pk)
-        if not rating.exists():
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request: object, pk=None) -> Response:
+        if pk:
+            category = Category.objects.get(id=pk)
+        else:
+            category = Category.objects.all()
 
-        avg = rating.aggregate(Avg('rating'))
-        return Response(avg)
-
-    def post(self, request: object) -> Response:
-        serializer = RatingSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        try:
-            Order.objects.get(
-                product=serializer.validated_data['product'],
-                customer=request.user)
-        except Order.DoesNotExist:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        serializer.validated_data['customer'] = request.user
-        serializer.save()
-        return Response(status=status.HTTP_200_OK)
-
-    def put(self, request: object, pk: int) -> Response:
-        rating = get_object_or_404(Rating, id=pk, customer=request.user)
-        serializer = ProductSerializer(rating, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer = CategorySerializer(instance=category, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def delete(self, request: object, pk: int) -> Response:
-        rating = get_object_or_404(Rating, id=pk, customer=request.user)
-        rating.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def post(self, request: object) -> Response:
+        serializer = CategorySerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
