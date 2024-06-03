@@ -21,16 +21,18 @@ class AddressView(APIView):
         else:
             address = Address.objects.filter(customer=request.user)
 
-        serializer = AddressSerializer(instance=address, many=False if pk else True)
+        serializer = AddressSerializer(address, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: object) -> Response:
+        print("start")
         user = Customer.objects.get(username=request.user.username)
 
         serializer = AddressSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
+        
         serializer.validated_data['customer'] = user
+
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)

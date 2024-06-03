@@ -17,17 +17,22 @@ class Product(models.Model):
     price = models.IntegerField()
     stock = models.IntegerField()
     description = models.TextField()
-    size = models.TextField()   # 요구사항 맞춰서 추후수정
     category = models.TextField(choices=Category.choices)
     date = models.DateField(auto_now_add=True)
     onsale = models.BooleanField(default=False)
     discount = models.FloatField(default=0)
 
 
+class Option(models.Model):
+    id = models.AutoField(primary_key=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, unique=True)
+
+
 class Image(models.Model):
     id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    img = models.URLField(default=DEFAULT_IMAGE_URL, null=False)
+    url = models.URLField(default=DEFAULT_IMAGE_URL, null=False)
 
 
 class Value(models.IntegerChoices):

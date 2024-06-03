@@ -4,5 +4,5 @@ from .views import AddressView
 
 urlpatterns = [
     path('', AddressView.as_view()),
-    path('<int:pk>/', AddressView.as_view())
+    path('<str:pk>/', AddressView.as_view())
 ]

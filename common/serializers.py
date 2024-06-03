@@ -29,7 +29,7 @@ class SignupSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ('id', 'image')
+        fields = '__all__'
 
         def get_photo_url(self, obj):
             request = self.context.get('request')
