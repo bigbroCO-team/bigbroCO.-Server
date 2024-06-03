@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from uuid import uuid4
+from PIL import Image as PILImage
 import re
 import os
 
@@ -46,10 +47,21 @@ class UploadView(APIView):
         if extension.lower() not in ['.jpg', '.jpeg', '.png']:
             raise ValidationError('Image must be JPEG or PNG')
 
-        path = f'{str(uuid4())}{extension}'
-        save = default_storage.save(os.path.join(settings.MEDIA_ROOT, path), image)
-        s3path = f'https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_INSTANCE_URL}/{save}'
+        if image.content_type not in ['image/jpeg', 'image/jpg', 'image/png']:
+            raise ValidationError('Invalid image content type')
 
-        Image.objects.create(url=s3path)
+        try:
+            pil_image = PILImage.open(image)
+            pil_image.verify()
+        except Exception as e:
+            raise ValidationError('Invalid image file')
+
+        try:
+            path = f'{str(uuid4())}{extension}'
+            save = default_storage.save(os.path.join(settings.MEDIA_ROOT, path), image)
+            s3path = f'https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_INSTANCE_URL}/{save}'
+            Image.objects.create(url=s3path)
+        except Exception as e:
+            raise ValidationError(f'Error saving image: {e}')
 
         return Response({'path': s3path}, status=status.HTTP_201_CREATED)
