@@ -22,9 +22,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /root/bigbroCO.-Server || true
-            git pull origin develop || true
-            docker stop bigbro-test || true
-            docker rm bigbro-test || true
-            docker build -t bigbro/bigbro-test . || true
-            docker run -d -it --env-file ./env -p 80:8000 --name bigbro-test bigbro/bigbro-test || true
+            cd /root/bigbroCO.-Server
+            git pull origin develop
+            docker stop bigbro-test
+            docker rm bigbro-test
+            docker build -t bigbro/bigbro-test . 
+            docker run -d -it --env-file ./env -p 80:8000 --name bigbro-test bigbro/bigbro-test
