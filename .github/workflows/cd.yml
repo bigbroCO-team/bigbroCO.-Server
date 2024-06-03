@@ -22,6 +22,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            ls || true
             cd /root/bigroCO.-Server || true
             git pull origin develop || true
             docker stop bigbro-test || true
