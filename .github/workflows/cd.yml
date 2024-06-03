@@ -1,4 +1,4 @@
-name: Django CD
+name: CD
 
 on:
   push:
@@ -21,12 +21,10 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          secript: |
-            set -e
-            cd /app/bigbroCO.-Server
+          script: |
+            cd /root/test-bigbro-server
             git pull origin develop
-            docker stop bigbro || true
-            docker rm bigbro || true
-            cp /env/.env ./
-            docker build -t bigbro .
-            docker run -d -it -p 80:8000 --name bigbro --env-file .env bigbro
+            docker stop bigbro-test
+            docker rm bigbro-test
+            docker build -t bigbro/bigbro-test .
+            docker run -d -it --env-file ./env -p 80:8000 -name bigbro-test bigbro/bigbro-test
