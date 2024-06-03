@@ -22,7 +22,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /root/test-bigbro-server
+            cd /root/bigroCO.-Server
             git pull origin develop
             docker stop bigbro-test
             docker rm bigbro-test
