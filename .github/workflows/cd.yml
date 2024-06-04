@@ -23,9 +23,9 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /root/bigbroCO.-Server
-            bash git config --global - -safe.directory /root/bigbroCO.-Server
+            pwd
             git pull origin develop
-            docker stop bigbro-test
-            docker rm bigbro-test
-            docker build -t bigbro/bigbro-test . 
-            docker run -d -it --env-file ./env -p 80:8000 --name bigbro-test bigbro/bigbro-test
+            sudo docker stop bigbro-test
+            sudo docker rm bigbro-test
+            sudo docker build -t bigbro/bigbro-test .
+            sudo docker run -d -it --env-file ./env -p 80:8000 --name bigbro-test bigbro/bigbro-test
