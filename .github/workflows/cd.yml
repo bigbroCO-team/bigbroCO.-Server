@@ -28,4 +28,4 @@ jobs:
             sudo docker stop bigbro-test
             sudo docker rm bigbro-test
             sudo docker build -t bigbro/bigbro-test .
-            sudo docker run -d -it --env-file ./env -p 80:8000 --name bigbro-test bigbro/bigbro-test
+            sudo docker run -d -it --env-file ./.env -p 80:8000 --name bigbro-test bigbro/bigbro-test
