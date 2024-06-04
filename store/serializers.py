@@ -1,6 +1,5 @@
 from rest_framework import serializers
-
-from store.models import Wishlist
+from store.models import Wishlist, Cart
 
 
 class WishlistSerializer(serializers.ModelSerializer):
@@ -8,10 +7,14 @@ class WishlistSerializer(serializers.ModelSerializer):
         model = Wishlist
         fields = '__all__'
 
+        extra_kwargs = {
+            'customer': {'required': False},
+        }
+
 
 class CartSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Wishlist
+        model = Cart
         fields = '__all__'
 
         extra_kwargs = {
