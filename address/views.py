@@ -30,7 +30,6 @@ class AddressView(APIView):
 
         serializer = AddressSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        
         serializer.validated_data['customer'] = user
 
         serializer.save()
@@ -38,9 +37,15 @@ class AddressView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request: object, pk: int) -> Response:
-        orders = Order.objects.filter(customer=request.user, address=pk, status__in=('SHIPPED', 'PROCESSING', 'PENDING'))
+        orders = Order.objects.filter(
+            customer=request.user,
+            address=pk,
+            status__in=('SHIPPED', 'PROCESSING', 'PENDING'))
+
         if orders.exists():
-            return Response('Processing order exists', status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                data={'msg': 'Processing order exists'},
+                status=status.HTTP_400_BAD_REQUEST)
 
         address = get_object_or_404(Address, customer=request.user, id=pk)
         serializer = AddressSerializer(address, data=request.data)
@@ -49,7 +54,11 @@ class AddressView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request: object, pk: int) -> Response:
-        orders = Order.objects.filter(customer=request.user, address=pk, status__in=('SHIPPED', 'PROCESSING', 'PENDING'))
+        orders = Order.objects.filter(
+            customer=request.user,
+            address=pk,
+            status__in=('SHIPPED', 'PROCESSING', 'PENDING'))
+
         if orders.exists():
             return Response('Processing order exists', status=status.HTTP_400_BAD_REQUEST)
         address = get_object_or_404(Address, id=pk, customer=request.user)

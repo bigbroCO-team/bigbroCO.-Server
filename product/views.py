@@ -19,7 +19,7 @@ class ProductView(APIView):
             product = Product.objects.get(id=pk)
         else:
             product = Product.objects.all()
-        serializer = ProductSerializer(instance=product, many=False if pk else True)
+        serializer = ProductSerializer(instance=product, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: object) -> Response:
