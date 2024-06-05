@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('product', '0018_alter_productimage_product'),
-        ('store', '0006_cart_unique_cart_product_and_customer'),
+        ('shopping', '0006_cart_unique_cart_product_and_customer'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 

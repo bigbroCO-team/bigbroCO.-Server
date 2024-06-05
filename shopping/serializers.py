@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from store.models import Wishlist, Cart
+from shopping.models import Wishlist, Cart
 
 
 class WishlistSerializer(serializers.ModelSerializer):
