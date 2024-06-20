@@ -36,7 +36,7 @@ jobs:
         image: ${{ secrets.SUCCESS_IMAGE }}
         color: 0000CD
         url: "https://github.com/sarisia/actions-status-discord"
-        username: 작은 아기고양이 재균
+        username: Github
 
     - name: webhook
       uses: sarisia/actions-status-discord@v1
@@ -48,5 +48,5 @@ jobs:
         image: ${{ secrets.FAILED_IMAGE }}
         color: 00FF00
         url: "https://github.com/sarisia/actions-status-discord"
-        username: 작은 아기고양이 재균
+        username: Github
 
