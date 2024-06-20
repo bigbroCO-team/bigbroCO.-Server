@@ -5,12 +5,11 @@ from rest_framework import serializers
 class SignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ('username', 'password', 'email', 'last_name', 'phone')
+        fields = ('username', 'password', 'email', 'phone')
 
         extra_kwargs = {
             'password': {'write_only': True},
             'email': {'required': True},
-            'last_name': {'required': True},
             'phone': {'required': True},
         }
 
