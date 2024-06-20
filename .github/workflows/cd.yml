@@ -35,7 +35,7 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         if: ${{ success() }}
         with:
-          title: 주인님 CD 성공했습니다
+          title: CD 성공
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.SUCCESS_IMAGE }}
@@ -47,7 +47,7 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         if: ${{ failure() }}
         with:
-          title: CD 실패했긔
+          title: CD 실패
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.FAILED_IMAGE }}
