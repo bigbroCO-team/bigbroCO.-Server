@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import datetime
 import secrets
 from pathlib import Path
 import environ
@@ -43,6 +44,12 @@ INSTALLED_APPS = [
     'user'
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -74,6 +81,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 AUTH_USER_MODEL = 'user.User'
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=60),
+    'SIGNING_KEY': os.environ.get('JWT_SECRET', secrets.token_urlsafe(32)),
+    'ALGORITHM': 'HS256',
+    'AUTH_HEADER_TYPES': ()
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
