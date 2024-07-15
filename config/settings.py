@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user'
+    'user',
+    'address'
 ]
 
 REST_FRAMEWORK = {
@@ -87,7 +88,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=60),
     'SIGNING_KEY': os.environ.get('JWT_SECRET', secrets.token_urlsafe(32)),
     'ALGORITHM': 'HS256',
-    'AUTH_HEADER_TYPES': ()
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
 # Database
