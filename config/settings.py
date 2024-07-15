@@ -14,6 +14,7 @@ import secrets
 from pathlib import Path
 import environ
 import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,8 +29,10 @@ env = environ.Env()
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', secrets.token_urlsafe(32))
 
+RUNNING_TESTS = 'test' in sys.argv or 'test_coverage' in sys.argv
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -152,3 +155,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if RUNNING_TESTS:
+    DATABASES['default'] = DATABASES['test']
