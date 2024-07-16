@@ -8,16 +8,17 @@ class Address(models.Model):
 
     id = models.AutoField(
         primary_key=True,
-        editable=False
+        editable=False,
     )
 
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        null=False
     )
 
-    tag = models.CharField(max_length=10)
-    zipcode = models.IntegerField(max_length=5)
-    address = models.CharField(max_length=50)
-    detail = models.CharField(max_length=30)
-    request = models.CharField(max_length=255)
+    tag = models.CharField(max_length=10, null=False)
+    zipcode = models.IntegerField(null=False)
+    address = models.CharField(max_length=50, null=False)
+    detail = models.CharField(max_length=30, null=False)
+    request = models.CharField(max_length=255, null=False)
