@@ -2,6 +2,8 @@ from .base import *
 
 DEBUG = False
 
+ALLOWED_HOSTS = [os.environ.get('SERVER')]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
