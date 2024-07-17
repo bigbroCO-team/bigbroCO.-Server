@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from config.utils import testcode_authentication
+from utils.utils import testcode_authentication
 
 
 # Create your tests here.
