@@ -5,11 +5,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-from .views import (
-    SendVerifyEmailView,
-    VerifyEmailView,
-    ResetPasswordView
-)
 
 
 urlpatterns = [
@@ -17,8 +12,4 @@ urlpatterns = [
     path('signup', UserSignupView.as_view(), name='signup'),
     path('refresh', TokenRefreshView.as_view()),
     path('verify', TokenVerifyView.as_view()),
-
-    path('code', SendVerifyEmailView.as_view()),
-    path('verify', VerifyEmailView.as_view()),
-    path('reset', ResetPasswordView.as_view()),
 ]
