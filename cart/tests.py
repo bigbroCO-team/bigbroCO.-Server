@@ -8,9 +8,11 @@ from utils.utils import testcode_authentication
 
 # Create your tests here.
 class UploadAddressTestCode(APITestCase):
+    obj: Product.objects
+
     def setUp(self):
         testcode_authentication(self)
-        Product.objects.create(
+        self.obj = Product.objects.create(
             name="test",
             description="test",
             open_stock=True,
@@ -19,7 +21,7 @@ class UploadAddressTestCode(APITestCase):
     def test_upload_cart(self):
         url = reverse('cart')
         data = {
-            "product": 1
+            "product": self.obj.id
         }
 
         res = self.client.post(url, data, format='json')
