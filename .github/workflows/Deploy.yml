@@ -28,6 +28,18 @@ jobs:
       run: |
         python manage.py test --settings=config.settings.base
 
+    - name: webhook
+      uses: sarisia/actions-status-discord@v1
+      if: ${{ failure() }}
+      with:
+        title: CI 실패
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        image: ${{ secrets.FAILED_IMAGE }}
+        color: 00FF00
+        url: "https://github.com/sarisia/actions-status-discord"
+        username: Github
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -51,7 +63,7 @@ jobs:
         uses: sarisia/actions-status-discord@v1
         if: ${{ success() }}
         with:
-          title: CD 성공
+          title: CI/CD 성공
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           status: ${{ job.status }}
           image: ${{ secrets.SUCCESS_IMAGE }}
