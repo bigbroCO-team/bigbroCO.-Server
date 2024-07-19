@@ -17,3 +17,14 @@ class ProductView(APIView):
         products = Product.objects.all()
         serializer = ProductSerializer(instance=products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class ProductAdminView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def post(self, request: object) -> Response:
+        serializer = ProductSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

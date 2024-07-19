@@ -47,17 +47,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'django_hosts',
     'storages',
     'user',
     'address',
     'product',
     'cart',
-    'option'
+    'option',
 ]
 
 MIDDLEWARE = [
-    'django_hosts.middleware.HostsRequestMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +63,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_hosts.middleware.HostsResponseMiddleware'
 ]
 
 TEMPLATES = [
@@ -165,6 +162,4 @@ IMAGE_ROOT = 'image/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_HOST = "api"
-ROOT_HOSTCONF = "config.hosts"
-ROOT_URLCONF = "config.urls.api"
+ROOT_URLCONF='config.urls'
