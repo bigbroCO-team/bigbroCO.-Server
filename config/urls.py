@@ -9,8 +9,9 @@ urlpatterns = [
     path('auth/', include('user.urls')),
     path('address/', include('address.urls')),
     path('cart/', include('cart.urls')),
-    path('product/', ProductView.as_view(), name='product'),
+    path('product/', include('product.urls')),
 
+    # Todo
     path('admin/upload/', include('thirdparty.s3.urls')),
     path('admin/product/', ProductAdminView.as_view(), name='admin-product'),
     path('admin/product/<int:id>/', ProductAdminView.as_view(), name='admin-product'),
