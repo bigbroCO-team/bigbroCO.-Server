@@ -1,14 +1,20 @@
 from rest_framework import serializers
-
-from option.models import Option
-from product.models import Image, Product
-
-from option.serializers import OptionSerializer
+from product.models import Image, Product, Option
 
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
+        fields = '__all__'
+
+        extra_kwargs = {
+            'product': {'required': False},
+        }
+
+
+class OptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Option
         fields = '__all__'
 
         extra_kwargs = {
