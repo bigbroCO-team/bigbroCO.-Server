@@ -1,11 +1,16 @@
+import logging
+
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
+from product import s3
 from product.models import Product
 from product.serializers import ProductSerializer
+
+log = logging.getLogger('default-logger')
 
 
 # Create your views here.
@@ -19,7 +24,6 @@ class ProductView(APIView):
             if not product['open_stock']:
                 for option in product['options']:
                     del option['stock']
-
         return Response(serialized_data, status=status.HTTP_200_OK)
 
 
@@ -37,3 +41,13 @@ class ProductAdminView(APIView):
         product = Product.objects.get(pk=id)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class UploadView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def post(self, request):
+        image = request.FILES.get('file', None)
+        url = s3.upload(image)
+        return Response({'url': url}, status=status.HTTP_201_CREATED)

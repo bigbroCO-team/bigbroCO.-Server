@@ -15,6 +15,8 @@ from pathlib import Path
 import environ
 import os
 import sys
+import boto3
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -164,3 +166,59 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ROOT_URLCONF = 'config.urls'
 
 ADMIN_MEDIA_PREFIX = 'admin/'
+
+# Logging
+boto3_client = boto3.client('logs', region_name=os.environ.get('AWS_REGION_NAME'))
+
+AWS_LOG_GROUP = os.environ.get('AWS_LOG_GROUP')
+AWS_LOG_STREAM = os.environ.get('AWS_LOG_STREAM')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'aws': {
+            'format': u"%(asctime)s [%(levelname)-8s] %(funcName)s - %(message)s [%(pathname)s:%(lineno)d]",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+        'net_aws': {
+            'format': u"%(asctime)s [%(levelname)-8s] %(funcName)s - %(message)s [%(pathname)s:%(lineno)d]",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        }
+    },
+    'handlers': {
+        'default': {
+            'level': 'INFO',
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_client': boto3_client,
+            'log_group': AWS_LOG_GROUP,
+            'stream_name': AWS_LOG_STREAM,
+            'formatter': 'aws',
+            'use_queues': True,
+        },
+        'network': {
+            'level': 'INFO',
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_client': boto3_client,
+            'log_group': AWS_LOG_GROUP,
+            'stream_name': AWS_LOG_STREAM,
+            'formatter': 'net_aws',
+            'use_queues': True,
+        }
+    },
+    'loggers': {
+        'default-logger': {
+            'level': 'INFO',
+            'handlers': ['default'],
+            'propagate': False,
+        },
+        'network-logger': {
+            'level': 'DEBUG',
+            'handlers': ['network'],
+            'propagate': False,
+        }
+    },
+}
+
+log = logging.getLogger('default-logger')
+net_log = logging.getLogger('network-logger')
