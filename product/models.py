@@ -34,6 +34,9 @@ class Image(models.Model):
 
     url = models.CharField(max_length=500)
 
+    def __str__(self):
+        return self.product.name
+
 
 class Option(models.Model):
     id = models.AutoField(primary_key=True)
@@ -47,3 +50,6 @@ class Option(models.Model):
     name = models.CharField(max_length=100)
 
     stock = models.IntegerField()
+
+    def __str__(self):
+        return self.name

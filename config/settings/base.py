@@ -161,4 +161,6 @@ IMAGE_ROOT = 'image/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ROOT_URLCONF='config.urls'
+ROOT_URLCONF = 'config.urls'
+
+ADMIN_MEDIA_PREFIX = 'admin/'
