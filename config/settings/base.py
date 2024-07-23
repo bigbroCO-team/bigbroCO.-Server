@@ -94,6 +94,7 @@ SIMPLE_JWT = {
     'ALGORITHM': 'HS256',
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
+JWT_SECRET = os.environ.get('JWT_SECRET')
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
