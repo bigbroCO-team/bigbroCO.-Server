@@ -19,6 +19,7 @@ class OptionSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             'product': {'required': False},
+            'stock': {'required': False},
         }
 
 
@@ -39,3 +40,16 @@ class ProductSerializer(serializers.ModelSerializer):
         for image in images:
             Image.objects.create(product=product, **image)
         return product
+
+
+class ProductListSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True)
+
+    class Meta:
+        model = Product
+        fields = (
+            'id',
+            'name',
+            'price',
+            'discount'
+        )

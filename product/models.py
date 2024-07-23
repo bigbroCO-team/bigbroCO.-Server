@@ -3,7 +3,16 @@ from django.db import models
 
 # Create your models here.
 class Product(models.Model):
+    class Category(models.TextChoices):
+        CBWAS = 'CBWAS', 'CBWAS'
+        SCB = 'S.C.B', 'S.C.B'
+        BIGBRO = 'BIGBRO', 'BIGBRO'
+        GONGNEWGI = 'gon', 'GONGNEWGI'
+        SCULFEE = 'scu', 'SCULFEE'
+
     id = models.AutoField(primary_key=True)
+
+    category = models.CharField(choices=Category.choices, max_length=10, null=False)
 
     name = models.CharField(max_length=100)
 
@@ -13,7 +22,7 @@ class Product(models.Model):
 
     discount = models.FloatField(default=0)
 
-    is_sale = models.BooleanField(default=False)
+    on_sale = models.BooleanField(default=True)
 
     open_stock = models.BooleanField(default=False)
 
