@@ -2,13 +2,13 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from utils.utils import testcode_authentication
+from utils.utils import testcode_basic_authentication
 
 
 # Create your tests here.
 class UploadAddressTestCode(APITestCase):
     def setUp(self):
-        testcode_authentication(self)
+        testcode_basic_authentication(self)
 
     def test_upload_address(self):
         url = reverse('address')

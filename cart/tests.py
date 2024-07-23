@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from product.models import Product
-from utils.utils import testcode_authentication
+from utils.utils import testcode_basic_authentication
 
 
 # Create your tests here.
@@ -11,7 +11,7 @@ class UploadAddressTestCode(APITestCase):
     obj: Product.objects
 
     def setUp(self):
-        testcode_authentication(self)
+        testcode_basic_authentication(self)
         self.obj = Product.objects.create(
             name="test",
             description="test",
