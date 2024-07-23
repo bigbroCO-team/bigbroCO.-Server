@@ -47,8 +47,9 @@ class ProductAdminView(APIView):
 
     def delete(self, request: object, id: int) -> Response:
         product = Product.objects.get(pk=id)
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        product.on_sale = False
+        product.save()
+        return Response(status=status.HTTP_200_OK)
 
 
 class UploadView(APIView):
