@@ -25,7 +25,7 @@ class TokenVerifyView(APIView):
             return Response({'error': 'Token is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            token = jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
+            jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
             return Response({'isValidToken': True})
         except:
             return Response({'isValidToken': False}, status=status.HTTP_401_UNAUTHORIZED)

@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -15,13 +16,9 @@ class AddressView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: object) -> Response:
-        return Response(
-            AddressSerializer(
-                Address.objects.filter(user=request.user),
-                many=True
-            ).data,
-            status=status.HTTP_200_OK
-        )
+        address = Address.objects.filter(user=request.user, many=True)
+        serializer = AddressSerializer(address, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request: object) -> Response:
         serializer = AddressSerializer(data=request.data)
@@ -32,14 +29,13 @@ class AddressView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def put(self, request: object, id: int) -> Response:
-        serializer = AddressSerializer(
-            instance=Address.objects.get(id=id, user=request.user),
-            data=request.data
-        )
+        address = Address.objects.get(id=id, user=request.user)
+        serializer = AddressSerializer(instance=address, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def delete(self, request: object, id: int) -> Response:
-        Address.objects.get(id=id, user=request.user).delete()
+        address = get_object_or_404(Address, id=id, user=request.user)
+        address.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
