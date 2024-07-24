@@ -1,4 +1,5 @@
 import jwt
+from django.db import transaction
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -10,6 +11,7 @@ from user.serializers import UserSignupSerializer
 
 # Create your views here.
 class UserSignupView(APIView):
+    @transaction.atomic
     def post(self, request: object) -> Response:
         serializer = UserSignupSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -19,12 +20,14 @@ class CartView(APIView):
         serializer = CartSerializer(instance=cart, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    @transaction.atomic
     def post(self, request: object) -> Response:
         serializer = CartSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    @transaction.atomic
     def delete(self, request: object, id: int) -> Response:
         cart = Cart.objects.get(id=id)
         cart.delete()
