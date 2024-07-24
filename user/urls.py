@@ -10,5 +10,5 @@ urlpatterns = [
     path('login', TokenObtainPairView.as_view(), name='login'),
     path('signup', UserSignupView.as_view(), name='signup'),
     path('refresh', TokenRefreshView.as_view()),
-    path('verify', TokenVerifyView.as_view()),
+    path('verify', TokenVerifyView.as_view(), name='verify'),
 ]

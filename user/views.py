@@ -18,8 +18,18 @@ class UserSignupView(APIView):
 
 
 class TokenVerifyView(APIView):
-    def post(self, request: object) -> Response:
-        token = request.data.get('token')
+    def get(self, request: object) -> Response:
+        header = request.headers.get('Authorization')
+
+        if not header:
+            return Response({'isValidToken': False}, status=status.HTTP_401_UNAUTHORIZED)
+
+        try:
+            token_type, token = header.split(' ')
+            if token_type.lower() != 'bearer':
+                return Response({'isValidToken': False}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'isValidToken': False}, status=status.HTTP_400_BAD_REQUEST)
 
         if not token:
             return Response({'error': 'Token is required'}, status=status.HTTP_400_BAD_REQUEST)
