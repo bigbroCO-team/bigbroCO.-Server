@@ -3,16 +3,17 @@ from django.db import models
 
 # Create your models here.
 class Product(models.Model):
-    class Category(models.TextChoices):
-        CBWAS = 'CBWAS', 'CBWAS'
-        SCB = 'S.C.B', 'S.C.B'
-        BIGBRO = 'BIGBRO', 'BIGBRO'
-        GONGNEWGI = 'GONGNEWGI', 'GONGNEWGI'
-        SCULFEE = 'SCULFEE', 'SCULFEE'
+    CATEGORY = [
+        ('CBWAS', 'CBWAS'),
+        ('SCB', 'S.C.B'),
+        ('BIGBRO', 'BIGBRO'),
+        ('GONGNEWGI', 'GONGNEWGI'),
+        ('SCULFEE', 'SCULFEE')
+    ]
 
     id = models.AutoField(primary_key=True)
 
-    category = models.CharField(choices=Category.choices, max_length=10, null=False)
+    category = models.CharField(choices=CATEGORY, max_length=10, null=False)
 
     name = models.CharField(max_length=100)
 
