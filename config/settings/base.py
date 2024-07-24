@@ -17,6 +17,9 @@ import os
 import sys
 import boto3
 import logging
+import logging.config
+
+from utils.discord import DiscordWebhookHandler
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -168,3 +171,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ROOT_URLCONF = 'config.urls'
 
 ADMIN_MEDIA_PREFIX = 'admin/'
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+# SECURE_SSL_REDIRECT = True
+
+CONN_MAX_AGE = None
