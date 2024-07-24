@@ -7,8 +7,8 @@ class Product(models.Model):
         CBWAS = 'CBWAS', 'CBWAS'
         SCB = 'S.C.B', 'S.C.B'
         BIGBRO = 'BIGBRO', 'BIGBRO'
-        GONGNEWGI = 'gon', 'GONGNEWGI'
-        SCULFEE = 'scu', 'SCULFEE'
+        GONGNEWGI = 'GONGNEWGI', 'GONGNEWGI'
+        SCULFEE = 'SCULFEE', 'SCULFEE'
 
     id = models.AutoField(primary_key=True)
 
