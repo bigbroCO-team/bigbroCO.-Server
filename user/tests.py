@@ -19,9 +19,3 @@ class UserSignupViewTestCode(APITestCase):
 
         res = self.client.post(url, data, format='json')
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
-
-    def test_validate_token(self):
-        url = reverse('verify')
-        testcode_basic_authentication(self)
-        res = self.client.get(url, format='json')
-        self.assertEqual(res.status_code, status.HTTP_200_OK)

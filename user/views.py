@@ -27,12 +27,9 @@ class TokenVerifyView(APIView):
         try:
             token_type, token = header.split(' ')
             if token_type.lower() != 'bearer':
-                return Response({'isValidToken': False}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'isValidToken': False}, status=status.HTTP_401_UNAUTHORIZED)
         except:
-            return Response({'isValidToken': False}, status=status.HTTP_400_BAD_REQUEST)
-
-        if not token:
-            return Response({'error': 'Token is required'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'isValidToken': False}, status=status.HTTP_401_UNAUTHORIZED)
 
         try:
             jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
