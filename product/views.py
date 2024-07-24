@@ -48,6 +48,14 @@ class ProductAdminView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @transaction.atomic
+    def put(self, request: object, id: int) -> Response:
+        product = get_object_or_404(Product, id=id)
+        serializer = ProductSerializer(product, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @transaction.atomic
     def delete(self, request: object, id: int) -> Response:
         product = get_object_or_404(Product, id=id)
         product.on_sale = False
