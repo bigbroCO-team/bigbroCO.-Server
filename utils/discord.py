@@ -1,5 +1,7 @@
 import json
 import logging
+from django.utils import timezone
+
 import requests
 
 
@@ -9,13 +11,16 @@ class DiscordWebhookHandler(logging.Handler):
         self.webhook_url = webhook_url
 
     def emit(self, record):
-        print("start")
         log_entry = self.format(record)
+        extra_info = getattr(record, 'extra', {})
+        request_path = extra_info.get('request_path', 'N/A')
+        timestamp = timezone.now().isoformat()
+
         payload = {
             "embeds": [
                 {
-                    "title": "alert",
-                    "description": log_entry,
+                    "title": "Alert",
+                    "description": f"```{log_entry}```\n\nAdditional Info:\nPath: {request_path}\nTimestamp: {timestamp}",
                     "color": 16711680
                 }
             ]
@@ -23,6 +28,4 @@ class DiscordWebhookHandler(logging.Handler):
         headers = {
             "Content-Type": "application/json"
         }
-        r = requests.post(url=self.webhook_url, headers=headers, data=json.dumps(payload))
-
-        print(r.status_code, r.text)
+        requests.post(url=self.webhook_url, headers=headers, data=json.dumps(payload))

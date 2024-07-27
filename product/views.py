@@ -1,3 +1,5 @@
+import logging
+
 from django.db import transaction
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAdminUser, AllowAny
