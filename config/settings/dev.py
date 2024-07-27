@@ -43,15 +43,10 @@ LOGGING = {
             "level": "WARNING",
             "class": "utils.discord.DiscordWebhookHandler",
             "webhook_url": os.environ.get('DISCORD_WEBHOOK_URL'),
-        },
-        "file": {
-            "level": "DEBUG",
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": os.environ.get('LOG_DIR'),
         }
     },
     "root": {
-        "handlers": ["console", "discord", "file"],
+        "handlers": ["console", "discord"],
         "level": "WARNING",
     },
 }
