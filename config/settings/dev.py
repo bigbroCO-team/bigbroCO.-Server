@@ -51,7 +51,7 @@ LOGGING = {
         }
     },
     "root": {
-        "handlers": ["console", "discord"],
+        "handlers": ["console", "discord", "file"],
         "level": "WARNING",
     },
 }
