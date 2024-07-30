@@ -23,8 +23,6 @@ class Product(models.Model):
 
     discount = models.FloatField(default=0)
 
-    on_sale = models.BooleanField(default=True)
-
     open_stock = models.BooleanField(default=False)
 
     date_created = models.DateTimeField(auto_now_add=True)
@@ -49,6 +47,14 @@ class Image(models.Model):
 
 
 class Option(models.Model):
+
+    STATUS = [
+        ('on_sale', 'on_sale'),  # 판매중
+        ('stop_sale', 'stop_sale'),  # 판매 중지
+        ('sold_out', 'sold_out'),  # 품절
+        ('discontinued', 'discontinued')  # 단종
+    ]
+
     id = models.AutoField(primary_key=True)
 
     product = models.ForeignKey(
@@ -57,9 +63,9 @@ class Option(models.Model):
         related_name='options'
     )
 
-    name = models.CharField(max_length=100)
+    status = models.CharField(choices=STATUS, max_length=15, null=False, default='on_sale')
 
-    stock = models.IntegerField()
+    name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name

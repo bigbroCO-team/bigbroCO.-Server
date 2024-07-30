@@ -26,16 +26,7 @@ class GetProductByIdView(APIView):
     def get(self, request: object, id: int) -> Response:
         product = get_object_or_404(Product, id=id)
         serializer = ProductSerializer(instance=product)
-        serialized_data = serializer.data
-
-        if not serialized_data['on_sale']:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        if not serialized_data['open_stock']:
-            for option in serialized_data['options']:
-                del option['stock']
-
-        return Response(serialized_data, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ProductAdminView(APIView):
