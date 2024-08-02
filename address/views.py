@@ -17,7 +17,7 @@ class AddressView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: object) -> Response:
-        address = Address.objects.filter(user=request.user, many=True)
+        address = Address.objects.filter(user=request.user)
         serializer = AddressSerializer(address, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

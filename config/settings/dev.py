@@ -1,8 +1,10 @@
+import os
+
 from .base import *
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [os.environ.get('SERVER')]
+# ALLOWED_HOSTS = [os.environ.get('SERVER')]
 
 DATABASES = {
     'default': {
