@@ -2,9 +2,9 @@ import os
 
 from .base import *
 
-DEBUG = True
+DEBUG = False
 
-# ALLOWED_HOSTS = [os.environ.get('SERVER')]
+ALLOWED_HOSTS = [os.environ.get('SERVER')]
 
 DATABASES = {
     'default': {
