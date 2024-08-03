@@ -17,7 +17,8 @@ class UploadAddressTestCode(APITestCase):
                 "zipcode": 12345,
                 "address": "test",
                 "detail": "test",
-                "request": "test"
+                "request": "test",
+                "phone": "test"
         }
 
         res = self.client.post(url, data, format='json')
