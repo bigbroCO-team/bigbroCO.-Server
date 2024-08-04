@@ -28,7 +28,7 @@ class AddressView(APIView):
         serializer.save(
             user=User.objects.get(id=request.user.id)
         )
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_201_CREATED)
 
     @transaction.atomic
     def put(self, request: object, id: int) -> Response:
@@ -36,7 +36,7 @@ class AddressView(APIView):
         serializer = AddressSerializer(instance=address, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK)
 
     @transaction.atomic
     def delete(self, request: object, id: int) -> Response:
