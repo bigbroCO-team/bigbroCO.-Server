@@ -23,8 +23,6 @@ class Product(models.Model):
 
     discount = models.FloatField(default=0, null=True)
 
-    open_stock = models.BooleanField(default=False)
-
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
