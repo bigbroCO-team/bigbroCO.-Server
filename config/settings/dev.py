@@ -43,7 +43,7 @@ LOGGING = {
         },
         "discord": {
             "level": "WARNING",
-            "class": "config.utils.discord.DiscordWebhookHandler",
+            "class": "config.utils.DiscordErrorWebhookHandler.DiscordErrorWebhookHandler",
             "webhook_url": os.environ.get('DISCORD_WEBHOOK_URL'),
         }
     },

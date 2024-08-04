@@ -5,7 +5,7 @@ from django.utils import timezone
 import requests
 
 
-class DiscordWebhookHandler(logging.Handler):
+class DiscordErrorWebhookHandler(logging.Handler):
     def __init__(self, webhook_url):
         super().__init__()
         self.webhook_url = webhook_url
