@@ -34,4 +34,4 @@ class TokenVerifyView(APIView):
             jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
             return Response({'isValidToken': True})
         except Exception as e:
-            return Response({'isValidToken': False, 'message': e}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'isValidToken': False, 'message': str(e)}, status=status.HTTP_401_UNAUTHORIZED)
