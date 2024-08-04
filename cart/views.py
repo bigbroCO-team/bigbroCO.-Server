@@ -22,7 +22,9 @@ class CartView(APIView):
 
     @transaction.atomic
     def post(self, request: object) -> Response:
-        serializer = CartSerializer(data=request.data)
+        for obj in request.data:
+            obj['user'] = request.user.id
+        serializer = CartSerializer(data=request.data, many=True)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -10,5 +10,4 @@ class CartSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             'id': {'required': False},
-            'user': {'required': False},
         }
