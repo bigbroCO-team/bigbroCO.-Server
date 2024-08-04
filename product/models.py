@@ -21,7 +21,7 @@ class Product(models.Model):
 
     price = models.IntegerField(default=0)
 
-    discount = models.FloatField(default=0)
+    discount = models.FloatField(default=0, null=True)
 
     open_stock = models.BooleanField(default=False)
 
