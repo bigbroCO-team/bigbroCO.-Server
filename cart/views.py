@@ -16,7 +16,7 @@ class CartView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request: object) -> Response:
-        cart = get_object_or_404(Cart, user=request.user)
+        cart = Cart.objects.filter(user=request.user)
         serializer = CartSerializer(instance=cart, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
