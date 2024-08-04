@@ -23,7 +23,7 @@ class UploadAddressTestCode(APITestCase):
         data = {
             "product": self.obj.id,
             "count": 2,
-            "option": 1
+            "option": 5
         }
 
         res = self.client.post(url, data, format='json')
