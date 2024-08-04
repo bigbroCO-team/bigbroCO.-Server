@@ -1,10 +1,10 @@
 from django.db import transaction
-from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from product.models import Product
 
 from cart.models import Cart
 from cart.serializers import CartSerializer
@@ -24,10 +24,18 @@ class CartView(APIView):
     def post(self, request: object) -> Response:
         for obj in request.data:
             obj['user'] = request.user.id
-        serializer = CartSerializer(data=request.data, many=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(user=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                cart = Cart.objects.get(user=request.user, option=obj['option'])
+                obj['count'] += cart.count
+                serializer = CartSerializer(instance=cart, data=obj)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+            except Cart.DoesNotExist:
+                serializer = CartSerializer(data=obj)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+
+        return Response(status=status.HTTP_201_CREATED)
 
     @transaction.atomic
     def delete(self, request: object, id: int) -> Response:

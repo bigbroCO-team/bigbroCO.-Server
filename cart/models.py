@@ -32,7 +32,6 @@ class Cart(models.Model):
     class Meta:
         unique_together = (
             ('user', 'option'),
-            ('product', 'option')
         )
 
     def __str__(self):
