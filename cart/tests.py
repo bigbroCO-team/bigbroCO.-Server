@@ -21,7 +21,8 @@ class UploadAddressTestCode(APITestCase):
     def test_upload_cart(self):
         url = reverse('cart')
         data = {
-            "product": self.obj.id
+            "product": self.obj.id,
+            "count": 2
         }
 
         res = self.client.post(url, data, format='json')

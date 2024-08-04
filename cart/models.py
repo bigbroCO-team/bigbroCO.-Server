@@ -20,5 +20,7 @@ class Cart(models.Model):
         related_name='carts',
     )
 
+    count = models.IntegerField(default=1)
+
     def __str__(self):
         return self.user.username + " : " + self.product.name
