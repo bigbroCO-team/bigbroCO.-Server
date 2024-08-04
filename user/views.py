@@ -24,7 +24,7 @@ class TokenVerifyView(APIView):
         header = request.headers.get('Authorization')
 
         if not header:
-            return Response({'isValidToken': False}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'isValidToken': False, 'message': 'Empty token'}, status=status.HTTP_401_UNAUTHORIZED)
 
         token_type, token = header.split(' ')
         if token_type.lower() != 'bearer':
@@ -33,7 +33,5 @@ class TokenVerifyView(APIView):
         try:
             jwt.decode(token, JWT_SECRET, algorithms=["HS256"])
             return Response({'isValidToken': True})
-        except jwt.exceptions.InvalidTokenError:
-            return Response({'isValidToken': False}, status=status.HTTP_401_UNAUTHORIZED)
-        except:
-            return Response({'isValidToken': False}, status=status.HTTP_401_UNAUTHORIZED)
+        except Exception as e:
+            return Response({'isValidToken': False, 'message': e}, status=status.HTTP_401_UNAUTHORIZED)
