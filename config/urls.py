@@ -16,5 +16,4 @@ urlpatterns = [
     path('admin/product', ProductAdminView.as_view(), name='admin-product'),
     path('admin/product/<int:id>', ProductAdminView.as_view(), name='admin-product'),
 
-
 ]
