@@ -10,5 +10,5 @@ class AddressSerializer(serializers.ModelSerializer):
 
         extra_kwargs = {
             'id': {'required': False},
-            'user': {'required': False}
+            'user': {'required': False},
         }
