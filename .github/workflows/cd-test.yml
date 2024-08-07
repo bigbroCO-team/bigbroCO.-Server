@@ -1,0 +1,26 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Check
+        uses: actions/checkout@v3
+
+      - name: ssh
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            /test.sh
