@@ -57,7 +57,13 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          git config --global --add safe.directory /app/bigbroCO.-Server
+          
           cd /app/bigbroCO.-Server
+          
+          echo "DJANGO_SETTINGS_MODULE=${{ env.DJANGO_SETTINGS_MODULE }}" >> .env
+          echo "SOCKET_FILE=${{ env.SOCKET_FILE }}" >> .env
+          
           docker-compose down
           git pull origin $BRANCH
-          DJANGO_SETTINGS_MODULE=${{ env.DJANGO_SETTINGS_MODULE }} SOCKET_FILE=${{ env.SOCKET_FILE }} docker-compose up -d --build
+          docker-compose up -d --build
