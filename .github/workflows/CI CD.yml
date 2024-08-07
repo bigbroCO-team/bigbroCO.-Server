@@ -28,20 +28,28 @@ jobs:
       run: |
         python manage.py test --settings=config.settings.base
 
-  deploy-prod:
+  deploy:
     needs: build
-    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set env for prod
+    - name: Set env variables
       run: |
-        echo "DJANGO_SETTINGS_MODULE=config.settings.prod" >> $GITHUB_ENV
-        echo "SOCKET_FILE=prod" >> $GITHUB_ENV
+        if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          echo "DJANGO_SETTINGS_MODULE=config.settings.prod" >> $GITHUB_ENV
+          echo "SOCKET_FILE=prod" >> $GITHUB_ENV
+          BRANCH="main"
+        elif [ "${{ github.ref }}" == "refs/heads/develop" ]; then
+          echo "DJANGO_SETTINGS_MODULE=config.settings.base" >> $GITHUB_ENV
+          echo "SOCKET_FILE=test" >> $GITHUB_ENV
+          BRANCH="develop"
+        fi
+        echo "BRANCH=${BRANCH}" >> $GITHUB_ENV
 
-    - name: Deploy to EC2 (prod)
+    - name: Deploy to EC2
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -51,32 +59,5 @@ jobs:
         script: |
           cd /app/bigbroCO.-Server
           docker-compose down
-          git pull origin main
-          DJANGO_SETTINGS_MODULE=config.settings.prod SOCKET_FILE=prod docker-compose up -d --build
-
-  deploy-dev:
-    needs: build
-    if: github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set env for develop
-      run: |
-        echo "DJANGO_SETTINGS_MODULE=config.settings.base" >> $GITHUB_ENV
-        echo "SOCKET_FILE=test" >> $GITHUB_ENV
-
-    - name: Deploy to EC2 (develop)
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
-        script: |
-          cd /app/bigbroCO.-Server
-          docker-compose down
-          git pull origin develop
-          DJANGO_SETTINGS_MODULE=config.settings.base SOCKET_FILE=test docker-compose up -d --build
-
+          git pull origin $BRANCH
+          DJANGO_SETTINGS_MODULE=${{ env.DJANGO_SETTINGS_MODULE }} SOCKET_FILE=${{ env.SOCKET_FILE }} docker-compose up -d --build
