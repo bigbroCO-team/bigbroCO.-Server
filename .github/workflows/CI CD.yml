@@ -36,19 +36,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set env prod
+    - name:  prod
       if: github.ref == 'refs/heads/main'
       run: |
         echo "DJANGO_SETTINGS_MODULE=config.settings.prod" >> $GITHUB_ENV
         echo "SOCKET_FILE=prod" >> $GITHUB_ENV
 
-    - name: Set env develop
-      if: github.ref == 'refs/heads/develop'
-      run: |
-        echo "DJANGO_SETTINGS_MODULE=config.settings.base" >> $GITHUB_ENV
-        echo "SOCKET_FILE=test" >> $GITHUB_ENV
-
-    - name: Deploy
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -56,6 +49,25 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          cd /app
           docker-compose down
           git pull origin main
+          docker-compose up -d --build
+
+    - name: Set env develop
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        echo "DJANGO_SETTINGS_MODULE=config.settings.base" >> $GITHUB_ENV
+        echo "SOCKET_FILE=test" >> $GITHUB_ENV
+
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /app
+          docker-compose down
+          git pull origin develop
           docker-compose up -d --build
