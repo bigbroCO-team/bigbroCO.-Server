@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install mysqlclient
+RUN apt install mysqlclient
 RUN apt install libmysqlclient-dev
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
