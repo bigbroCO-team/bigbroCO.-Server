@@ -52,7 +52,7 @@ jobs:
           cd /app/bigbroCO.-Server
           docker-compose down
           git pull origin main
-          docker-compose up -d --build
+          DJANGO_SETTINGS_MODULE=config.settings.prod SOCKET_FILE=prod docker-compose up -d --build
 
   deploy-dev:
     needs: build
@@ -78,4 +78,5 @@ jobs:
           cd /app/bigbroCO.-Server
           docker-compose down
           git pull origin develop
-          docker-compose up -d --build
+          DJANGO_SETTINGS_MODULE=config.settings.base SOCKET_FILE=test docker-compose up -d --build
+
