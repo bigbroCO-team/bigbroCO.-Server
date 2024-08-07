@@ -28,20 +28,20 @@ jobs:
       run: |
         python manage.py test --settings=config.settings.base
 
-  deploy:
+  deploy-prod:
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name:  prod
-      if: github.ref == 'refs/heads/main'
+    - name: Set env for prod
       run: |
         echo "DJANGO_SETTINGS_MODULE=config.settings.prod" >> $GITHUB_ENV
         echo "SOCKET_FILE=prod" >> $GITHUB_ENV
 
+    - name: Deploy to EC2 (prod)
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
@@ -54,12 +54,20 @@ jobs:
           git pull origin main
           docker-compose up -d --build
 
-    - name: Set env develop
-      if: github.ref == 'refs/heads/develop'
+  deploy-dev:
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set env for develop
       run: |
         echo "DJANGO_SETTINGS_MODULE=config.settings.base" >> $GITHUB_ENV
         echo "SOCKET_FILE=test" >> $GITHUB_ENV
 
+    - name: Deploy to EC2 (develop)
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_HOST }}
