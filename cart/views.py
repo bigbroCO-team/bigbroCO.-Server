@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from product.models import Product
 
 from cart.models import Cart
 from cart.serializers import CartSerializer
@@ -17,7 +16,7 @@ class CartView(APIView):
 
     def get(self, request: object) -> Response:
         cart = Cart.objects.filter(user=request.user)
-        serializer = CartSerializer(instance=cart, many=True)
+        serializer = CartSerializer(cart, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @transaction.atomic

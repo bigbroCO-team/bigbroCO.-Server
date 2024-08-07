@@ -27,15 +27,12 @@ env = environ.Env()
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', secrets.token_urlsafe(32))
-
-RUNNING_TESTS = 'test' in sys.argv or 'test_coverage' in sys.argv
-
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS')]
 
 # Application definition
 
@@ -48,17 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'storages',
-    'debug_toolbar',
     'user',
     'address',
     'product',
     'cart',
     'dashboard',
     'order'
-]
-
-INTERNAL_IPS = [
-    '127.0.0.1',
 ]
 
 MIDDLEWARE = [
@@ -95,7 +87,7 @@ AUTH_USER_MODEL = 'user.User'
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=60),
-    'SIGNING_KEY': os.environ.get('JWT_SECRET', secrets.token_urlsafe(32)),
+    'SIGNING_KEY': os.environ.get('JWT_SECRET'),
     'ALGORITHM': 'HS256',
     'AUTH_HEADER_TYPES': ('Bearer',),
 }

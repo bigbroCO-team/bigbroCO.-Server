@@ -18,7 +18,10 @@ class OptionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         extra_kwargs = {
-            'product': {'required': False},
+            'product': {
+                'required': False,
+                'write_only': True
+            },
         }
 
 

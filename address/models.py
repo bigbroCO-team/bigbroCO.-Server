@@ -17,9 +17,9 @@ class Address(models.Model):
         null=False
     )
 
-    tag = models.CharField(max_length=10, null=False)
-    zipcode = models.IntegerField(null=False)
-    phone = models.CharField(max_length=11, null=False, default="<PHONE>")
-    address = models.CharField(max_length=50, null=False)
-    detail = models.CharField(max_length=30, null=False)
-    request = models.CharField(max_length=255, null=False)
+    tag = models.CharField(max_length=10)
+    zipcode = models.IntegerField()
+    phone = models.CharField(max_length=11)
+    address = models.CharField(max_length=50)
+    detail = models.CharField(max_length=30)
+    request = models.CharField(max_length=255)
