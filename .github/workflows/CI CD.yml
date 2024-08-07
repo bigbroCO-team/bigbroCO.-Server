@@ -49,7 +49,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          cd /app
+          cd /app/bigbroCO.-Server
           docker-compose down
           git pull origin main
           docker-compose up -d --build
@@ -75,7 +75,7 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          cd /app
+          cd /app/bigbroCO.-Server
           docker-compose down
           git pull origin develop
           docker-compose up -d --build
