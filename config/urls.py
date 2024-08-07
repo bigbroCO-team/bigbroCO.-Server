@@ -10,10 +10,8 @@ urlpatterns = [
     path('cart', include('cart.urls')),
     path('product', include('product.urls')),
 
-    # Todo
-    path('admin/site', admin.site.urls),
-    path('admin/upload', UploadView.as_view()),
-    path('admin/product', ProductAdminView.as_view(), name='admin-product'),
-    path('admin/product/<int:id>', ProductAdminView.as_view(), name='admin-product'),
-
+    path('manage/site', admin.site.urls),
+    path('manage/upload', UploadView.as_view()),
+    path('manage/product', ProductAdminView.as_view(), name='admin-product'),
+    path('manage/product/<int:id>', ProductAdminView.as_view(), name='admin-product'),
 ]
