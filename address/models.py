@@ -18,8 +18,8 @@ class Address(models.Model):
     )
 
     tag = models.CharField(max_length=10)
+    name = models.CharField(max_length=10, default="<NAME>")
     zipcode = models.IntegerField()
     phone = models.CharField(max_length=11)
     address = models.CharField(max_length=50)
     detail = models.CharField(max_length=30)
-    request = models.CharField(max_length=255)
