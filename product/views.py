@@ -17,14 +17,14 @@ from product.serializers import ProductSerializer
 class ProductListView(APIView):
     def get(self, request: object) -> Response:
         category = request.query_params.get('category', None)
-        product = Product.objects.filter(category=category)
+        product = Product.objects.filter(category=category, is_active=True)
         serializer = ProductSerializer(instance=product, many=True)
         return Response(serializer.data)
 
 
 class GetProductByIdView(APIView):
     def get(self, request: object, id: int) -> Response:
-        product = get_object_or_404(Product, id=id)
+        product = get_object_or_404(Product, id=id, is_active=True)
         serializer = ProductSerializer(instance=product)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -51,7 +51,7 @@ class ProductAdminView(APIView):
     @transaction.atomic
     def delete(self, request: object, id: int) -> Response:
         product = get_object_or_404(Product, id=id)
-        product.on_sale = False
+        product.is_active = False
         product.save()
         return Response(status=status.HTTP_200_OK)
 

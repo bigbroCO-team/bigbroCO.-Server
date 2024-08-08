@@ -119,6 +119,8 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 AWS_S3_FILE_OVERWRITE = False
 AWS_UPLOAD_BASE_URL = os.environ.get('AWS_UPLOAD_BASE_URL')
 
+PAYMENTS_KEY = os.environ.get('PAYMENTS_KEY')
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
