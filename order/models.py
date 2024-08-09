@@ -2,7 +2,7 @@ import datetime
 
 from django.db import models
 
-from product.models import Product
+from product.models import Product, Option
 from user.models import User
 
 
@@ -29,9 +29,9 @@ class Order(models.Model):
     Order - Payment field
     """
     # Default
-    payment_key = models.CharField(max_length=200)
-    order_id = models.CharField(max_length=64)
-    total_amount = models.IntegerField()
+    payment_key = models.CharField(max_length=200, null=True)
+    order_id = models.CharField(max_length=64, null=True)
+    total_amount = models.IntegerField(null=True)
 
     """
     Order - Metadata
@@ -39,9 +39,11 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class OrderProduct(models.Model):
+class ProductItem(models.Model):
     id = models.AutoField(primary_key=True)
 
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
+
+    option = models.ForeignKey(Option, on_delete=models.PROTECT)
 
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
