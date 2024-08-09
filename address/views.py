@@ -16,7 +16,7 @@ class AddressView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request: object, id: int) -> Response:
+    def get(self, request: object, id: int = None) -> Response:
         if id:
             address = get_object_or_404(Address, pk=id, user=request.user)
             serializer = AddressSerializer(address)
