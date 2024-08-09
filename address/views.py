@@ -16,9 +16,13 @@ class AddressView(APIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get(self, request: object) -> Response:
-        address = Address.objects.filter(user=request.user)
-        serializer = AddressSerializer(address, many=True)
+    def get(self, request: object, id: int) -> Response:
+        if id:
+            address = get_object_or_404(Address, pk=id, user=request.user)
+            serializer = AddressSerializer(address)
+        else:
+            address = Address.objects.filter(user=request.user)
+            serializer = AddressSerializer(address, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     @transaction.atomic
