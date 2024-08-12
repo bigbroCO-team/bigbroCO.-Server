@@ -12,9 +12,6 @@ from config.settings.base import JWT_SECRET
 from user.models import User
 from user.serializers import UserSignupSerializer
 
-from config.settings.base import KAKAO_API_KEY, KAKAO_REDIRECT_URI
-
-
 # Create your views here.
 class UserSignupView(APIView):
     @transaction.atomic
