@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import UserSignupView, TokenVerifyView
+
+from .views import UserSignupView, TokenVerifyView, KakaoSignInView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -11,5 +12,6 @@ urlpatterns = [
     path('/signup', UserSignupView.as_view(), name='signup'),
     path('/refresh', TokenRefreshView.as_view()),
     path('/verify', TokenVerifyView.as_view(), name='verify'),
-]
 
+    path('/kakao', KakaoSignInView.as_view())
+]

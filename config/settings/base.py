@@ -43,8 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'storages',
+
     'user',
     'address',
     'product',
@@ -63,6 +65,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 TEMPLATES = [
     {
@@ -177,3 +186,7 @@ ADMIN_MEDIA_PREFIX = 'admin/'
 # SECURE_SSL_REDIRECT = True
 
 CONN_MAX_AGE = None
+
+KAKAO_API_KEY = os.environ.get('KAKAO_API_KEY')
+KAKAO_REDIRECT_URI = os.environ.get('KAKAO_REDIRECT_URI')
+KAKAO_CLIENT_URL = os.environ.get('KAKAO_CLIENT_URL')
