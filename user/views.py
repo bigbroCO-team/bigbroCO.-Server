@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from config.settings.base import JWT_SECRET
+from config.settings.base import JWT_SECRET, KAKAO_API_KEY, KAKAO_REDIRECT_URI, KAKAO_CLIENT_SECRET
 from user.models import User
 from user.serializers import UserSignupSerializer
 
@@ -42,28 +42,52 @@ class TokenVerifyView(APIView):
 
 
 class KakaoSignInView(APIView):
-    def post(self, request: object) -> Response:
-        try:
-            access_token = request.data.get('token')
-            user_info = requests.get(
-                url="https://kapi.kakao.com/v2/user/me",
-                headers={"Authorization": f"Bearer {access_token}"}
-            ).json()
-            email = user_info["kakao_account"]["email"]
-            user = User.objects.filter(email=email).first()
-            if not user:
-                user = User.objects.create(email=email)
+    def get(self, request: object) -> Response:
+        return redirect(f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={KAKAO_API_KEY}&redirect_uri={KAKAO_REDIRECT_URI}")
 
-            token = TokenObtainPairSerializer.get_token(user)
 
-            access = str(token.access_token)
-            refresh = str(token)
+class KakaoSignInCallbackView(APIView):
+    def get(self, request: object) -> Response:
 
-            data = {
-                "access": access,
-                "refresh": refresh
-            }
+        """
+            Get access token
+        """
+        code = request.GET.get('code')
+        token_url = "https://kauth.kakao.com/oauth/token"
+        token_data = {
+            "grant_type": "authorization_code",
+            "client_id": KAKAO_API_KEY,
+            "redirect_uri": KAKAO_REDIRECT_URI,
+            "code": code,
+            "client_secret": KAKAO_CLIENT_SECRET
+        }
+        token_headers = {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
 
-            return Response(data, status=status.HTTP_200_OK)
-        except KeyError:
-            return Response({"detail": "KeyError"}, status=status.HTTP_401_UNAUTHORIZED)
+        r = requests.post(token_url, data=token_data, headers=token_headers)
+
+        """
+            Get user info
+        """
+        user_info = requests.get(
+            url="https://kapi.kakao.com/v2/user/me",
+            headers={"Authorization": f"Bearer {r.json().get('access_token')}"}
+        )
+
+        email = user_info.json()["kakao_account"]["email"]
+        user = User.objects.filter(email=email).first()
+        if not user:
+            user = User.objects.create_user(email=email)
+
+        token = TokenObtainPairSerializer.get_token(user)
+
+        access = str(token.access_token)
+        refresh = str(token)
+
+        data = {
+            "access": access,
+            "refresh": refresh
+        }
+
+        return Response(data, status=status.HTTP_200_OK)
