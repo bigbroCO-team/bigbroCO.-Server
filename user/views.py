@@ -1,7 +1,6 @@
 import jwt
 import requests
 from django.db import transaction
-from django.shortcuts import redirect
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -43,7 +42,10 @@ class TokenVerifyView(APIView):
 
 class KakaoSignInView(APIView):
     def get(self, request: object) -> Response:
-        return redirect(f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={KAKAO_API_KEY}&redirect_uri={KAKAO_REDIRECT_URI}")
+        data = {
+            "redirect_url": f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={KAKAO_API_KEY}&redirect_uri={KAKAO_REDIRECT_URI}"
+        }
+        return Response(data, status=status.HTTP_302_FOUND)
 
 
 class KakaoSignInCallbackView(APIView):
