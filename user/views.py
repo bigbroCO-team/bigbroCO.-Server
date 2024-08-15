@@ -47,6 +47,7 @@ class KakaoSignInView(APIView):
 
 
 class KakaoSignInCallbackView(APIView):
+    @transaction.atomic
     def get(self, request: object) -> Response:
 
         """
@@ -78,7 +79,12 @@ class KakaoSignInCallbackView(APIView):
         email = user_info.json()["kakao_account"]["email"]
         user = User.objects.filter(email=email).first()
         if not user:
-            user = User.objects.create_user(email=email)
+            """
+            Todo
+            create -> create_user
+            (kakao oauth2)
+            """
+            user = User.objects.create(email=email)
 
         token = TokenObtainPairSerializer.get_token(user)
 
