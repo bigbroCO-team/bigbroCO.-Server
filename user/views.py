@@ -69,7 +69,8 @@ class KakaoSignInCallbackView(APIView):
         }
 
         r = requests.post(token_url, data=token_data, headers=token_headers)
-
+        if r.status_code != 200:
+            return Response(r.json(), status=r.status_code)
         """
             Get user info
         """
@@ -77,6 +78,8 @@ class KakaoSignInCallbackView(APIView):
             url="https://kapi.kakao.com/v2/user/me",
             headers={"Authorization": f"Bearer {r.json().get('access_token')}"}
         )
+        if user_info.status_code != 200:
+            return Response(user_info.json(), status=user_info.status_code)
 
         email = user_info.json()["kakao_account"]["email"]
         user = User.objects.filter(email=email).first()
