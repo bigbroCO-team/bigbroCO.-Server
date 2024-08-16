@@ -17,8 +17,9 @@ class Order(models.Model):
     Order - Default field
     (delivery info, address)
     """
-    delivery = models.CharField(max_length=30)
-    tracking_number = models.CharField(max_length=30)
+    name = models.CharField(max_length=100, default="<NAME>")
+    tracking_number = models.CharField(max_length=30, null=True)
+    delivery = models.CharField(max_length=30, null=True)
     total = models.IntegerField()
     address = models.CharField(max_length=50)
     address_detail = models.CharField(max_length=30)
@@ -38,8 +39,11 @@ class Order(models.Model):
     """
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.name
 
-class ProductItem(models.Model):
+
+class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)
 
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
@@ -47,3 +51,6 @@ class ProductItem(models.Model):
     option = models.ForeignKey(Option, on_delete=models.PROTECT)
 
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.product.name

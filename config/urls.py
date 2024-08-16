@@ -9,6 +9,7 @@ urlpatterns = [
     path('address', include('address.urls')),
     path('cart', include('cart.urls')),
     path('product', include('product.urls')),
+    path('order', include('order.urls')),
 
     path('manage/site', admin.site.urls),
     path('manage/upload', UploadView.as_view()),

@@ -23,3 +23,6 @@ class Address(models.Model):
     phone = models.CharField(max_length=11)
     address = models.CharField(max_length=50)
     detail = models.CharField(max_length=30)
+
+    def __str__(self):
+        return self.zipcode
