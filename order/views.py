@@ -33,6 +33,7 @@ class OrderListView(APIView):
 
 
 class TossPaymentsView(APIView):
+    @transaction.atomic
     def get(self, request: object) -> Response:
         orderId = request.GET.get('orderId')
         tossOrderId = request.GET.get('tossOrderId')
@@ -63,4 +64,22 @@ class TossPaymentsView(APIView):
         resjson = res.json()
         pretty = json.dumps(resjson, indent=4)
 
+        if res.status_code == 200:
+            # Todo -> order status
+            order.order_id = tossOrderId
+            order.payment_key = paymentKey
+            order.total_amount = amount
+            order.save()
 
+            respaymentKey = resjson["paymentKey"]
+            resorderId = resjson["orderId"]
+            rescardcom = resjson["card"]["company"]
+
+            return Response({
+                "res": pretty,
+                "paymentKey": respaymentKey,
+                "orderId": resorderId,
+                "cardcom": rescardcom
+
+            }, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
