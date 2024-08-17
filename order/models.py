@@ -46,11 +46,11 @@ class Order(models.Model):
 class OrderItem(models.Model):
     id = models.AutoField(primary_key=True)
 
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='items')
 
-    option = models.ForeignKey(Option, on_delete=models.PROTECT)
+    option = models.ForeignKey(Option, on_delete=models.PROTECT, related_name='items')
 
-    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='items')
 
     def __str__(self):
         return self.product.name
