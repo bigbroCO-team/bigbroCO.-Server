@@ -18,6 +18,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
                 'write_only': True,
             },
             'option': {'write_only': True},
+            'user': {'write_only': True}
         }
 
 
@@ -27,6 +28,10 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+
+        extra_kwargs = {
+            'user': {'write_only': True},
+        }
 
 
 class OrderListSerializer(serializers.Serializer):
