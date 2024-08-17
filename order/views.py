@@ -1,5 +1,10 @@
 # Create your views here.
+import base64
+import json
+
+import requests
 from django.db import transaction
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -25,3 +30,37 @@ class OrderListView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
         return Response(status=status.HTTP_201_CREATED)
+
+
+class TossPaymentsView(APIView):
+    def get(self, request: object) -> Response:
+        orderId = request.GET.get('orderId')
+        tossOrderId = request.GET.get('tossOrderId')
+        amount = request.GET.get('amount')
+        paymentKey = request.GET.get('paymentKey')
+
+        order = get_object_or_404(Order, id=orderId)
+        if order.total != amount:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        url = "https://api.tosspayments.com/v1/payments/confirm"
+        secertkey = "test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R"
+        userpass = secertkey + ':'
+        encoded_u = base64.b64encode(userpass.encode()).decode()
+
+        headers = {
+            "Authorization": "Basic %s" % encoded_u,
+            "Content-Type": "application/json"
+        }
+
+        params = {
+            "orderId": orderId,
+            "amount": amount,
+            "paymentKey": paymentKey,
+        }
+
+        res = requests.post(url, data=json.dumps(params), headers=headers)
+        resjson = res.json()
+        pretty = json.dumps(resjson, indent=4)
+
+

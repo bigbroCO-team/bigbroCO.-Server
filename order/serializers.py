@@ -45,7 +45,7 @@ class OrderListSerializer(serializers.Serializer):
         if address.user != user:
             raise serializers.ValidationError(detail={"detail": "invalid user"})
         products = validated_data.pop('products')
-        name = f"{products[0]['product'].name} {products[0]['option'].name}{f' 외 {len(products) - 1} 개' if len(products) > 1 else ''}"
+        name = f"{products[0]['product'].name}{f' 외 {len(products) - 1} 건' if len(products) > 1 else ''}"
         amount = 0
         for p in products:
             amount += int(p['product'].price / (int(100 - p['product'].discount) / 100))
