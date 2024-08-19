@@ -1,13 +1,15 @@
 import jwt
 import requests
+from Tools.scripts.generate_opcode_h import header
 from django.db import transaction
+from django.http import HttpResponseRedirect
 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from config.settings.base import JWT_SECRET, KAKAO_API_KEY, KAKAO_REDIRECT_URI, KAKAO_CLIENT_SECRET
+from config.settings.base import JWT_SECRET, KAKAO_API_KEY, KAKAO_REDIRECT_URI, KAKAO_CLIENT_SECRET, CLIENT_REDIRECT_URL
 from user.models import User
 from user.serializers import UserSignupSerializer
 
@@ -42,10 +44,8 @@ class TokenVerifyView(APIView):
 
 class KakaoSignInView(APIView):
     def get(self, request: object) -> Response:
-        data = {
-            "redirect_url": f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={KAKAO_API_KEY}&redirect_uri={KAKAO_REDIRECT_URI}"
-        }
-        return Response(data, status=status.HTTP_302_FOUND)
+        headers = {"Location": f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={KAKAO_API_KEY}&redirect_uri={KAKAO_REDIRECT_URI}"}
+        return Response(headers=headers, status=status.HTTP_302_FOUND)
 
 
 class KakaoSignInCallbackView(APIView):
@@ -93,12 +93,10 @@ class KakaoSignInCallbackView(APIView):
 
         token = TokenObtainPairSerializer.get_token(user)
 
-        access = str(token.access_token)
-        refresh = str(token)
-
-        data = {
-            "access": access,
-            "refresh": refresh
+        headers = {
+            "Location": CLIENT_REDIRECT_URL,
+            "access": str(token.access_token),
+            "refresh": str(token)
         }
 
-        return Response(data, status=status.HTTP_200_OK)
+        return Response(headers=headers, status=status.HTTP_302_FOUND)
