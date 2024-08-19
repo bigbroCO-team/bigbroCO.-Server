@@ -87,7 +87,7 @@ class KakaoSignInCallbackView(APIView):
                 create -> create_user
                 (kakao oauth2)
                 """
-                user = User.objects.create(email=email)
+                user = User.objects.create_user(email=email, username=email)
 
             token = TokenObtainPairSerializer.get_token(user)
 
