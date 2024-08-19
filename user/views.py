@@ -9,19 +9,9 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from config.settings.base import JWT_SECRET, KAKAO_API_KEY, KAKAO_REDIRECT_URI, KAKAO_CLIENT_SECRET, CLIENT_REDIRECT_URL
 from user.models import User
-from user.serializers import UserSignupSerializer
 
 
-# Create your views here.
-class UserSignupView(APIView):
-    @transaction.atomic
-    def post(self, request: object) -> Response:
-        serializer = UserSignupSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
+# Create your views here
 class TokenVerifyView(APIView):
     def get(self, request: object) -> Response:
         header = request.headers.get('Authorization')
