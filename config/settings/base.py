@@ -200,3 +200,22 @@ KAKAO_REDIRECT_URI = os.environ.get('KAKAO_REDIRECT_URI')
 KAKAO_CLIENT_URL = os.environ.get('KAKAO_CLIENT_URL')
 KAKAO_CLIENT_SECRET = os.environ.get('KAKAO_CLIENT_SECRET')
 CLIENT_REDIRECT_URL = os.environ.get('CLIENT_REDIRECT_URL')
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+        "discord": {
+            "level": "WARNING",
+            "class": "config.utils.DiscordErrorWebhookHandler.DiscordErrorWebhookHandler",
+            "webhook_url": os.environ.get('DISCORD_WEBHOOK_URL'),
+        }
+    },
+    "root": {
+        "handlers": ["console", "discord"],
+        "level": "ERROR",
+    },
+}
