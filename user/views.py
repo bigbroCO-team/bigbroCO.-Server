@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 import jwt
 import requests
 from django.db import transaction
@@ -86,8 +88,8 @@ class KakaoSignInCallbackView(APIView):
             }
 
             r = Response(headers=headers, status=status.HTTP_302_FOUND)
-            r.set_cookie("access", str(token.access_token), httponly=True, secure=True)
-            r.set_cookie("refresh", str(token), httponly=True, secure=True)
+            r.set_cookie("access", str(token.access_token), httponly=True, secure=True, expires=timedelta(minutes=5))
+            r.set_cookie("refresh", str(token), httponly=True, secure=True, expires=timedelta(minutes=5))
             return r
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
