@@ -1,8 +1,6 @@
 import jwt
 import requests
-from Tools.scripts.generate_opcode_h import header
 from django.db import transaction
-from django.http import HttpResponseRedirect
 
 from rest_framework import status
 from rest_framework.response import Response
