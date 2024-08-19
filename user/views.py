@@ -82,11 +82,12 @@ class KakaoSignInCallbackView(APIView):
             token = TokenObtainPairSerializer.get_token(user)
 
             headers = {
-                "Location": CLIENT_REDIRECT_URL,
-                "access": str(token.access_token),
-                "refresh": str(token)
+                "Location": CLIENT_REDIRECT_URL
             }
 
-            return Response(headers=headers, status=status.HTTP_302_FOUND)
+            r = Response(headers=headers, status=status.HTTP_302_FOUND)
+            r.set_cookie("access", str(token.access_token), httponly=True, secure=True)
+            r.set_cookie("refresh", str(token), httponly=True, secure=True)
+            return r
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
