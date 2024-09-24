@@ -47,12 +47,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'storages',
 
-    'user',
-    'address',
-    'product',
-    'cart',
-    'dashboard',
-    'order'
+    'src.app.user',
+    'src.app.address',
+    'src.app.product',
+    'src.app.cart',
+    'src.app.dashboard',
+    'src.app.order'
 ]
 
 REST_FRAMEWORK = {
