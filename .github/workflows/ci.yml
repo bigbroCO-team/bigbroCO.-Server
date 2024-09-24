@@ -1,4 +1,4 @@
-name: CI
+name: Python3 CI
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -27,4 +28,26 @@ jobs:
         poetry install
     - name: Run Tests
       run: |
-        poetry run python manage.py test --settings=config.settings.base
+        poetry run python manage.py test --settings=config.settings.test
+
+    - name: Python3 CI Success
+      uses: sarisia/actions-status-discord@v1
+      if: ${{ success() }}
+      with:
+        title: Python3 Ci Success!
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        color: 00FF00
+        username: GitHub
+        url: https://github.com/bigbroCO-team/bigbroCO.-Server
+
+    - name: Python3 CI Fail
+      uses: sarisia/actions-status-discord@v1
+      if: ${{ failure() }}
+      with:
+        title: Python3 Ci Fail!
+        webhook: ${{ secrets.DISCORD_WEBHOOK }}
+        status: ${{ job.status }}
+        color: FF0000
+        username: GitHub
+        url: https://github.com/bigbroCO-team/bigbroCO.-Server
