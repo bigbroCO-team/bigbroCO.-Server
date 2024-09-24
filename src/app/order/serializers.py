@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
-from address.models import Address
-from order.models import OrderItem, Order
-from product.serializers import ProductSerializer, OptionSerializer
+from src.app.address.models import Address
+from src.app.order.models import OrderItem, Order
+from src.app.product.serializers import ProductSerializer, OptionSerializer
 
 
 class OrderItemSerializer(serializers.ModelSerializer):

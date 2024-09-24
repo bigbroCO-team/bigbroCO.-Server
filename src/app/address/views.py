@@ -6,9 +6,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from address.models import Address
-from address.serializers import AddressSerializer
-from user.models import User
+from src.app.address.models import Address
+from src.app.address.serializers import AddressSerializer
+from src.app.user.models import User
 
 
 # Create your views here.

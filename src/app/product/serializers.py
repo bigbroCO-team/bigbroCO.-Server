@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from product.models import Image, Product, Option
+from src.app.product.models import Image, Product, Option
 
 
 class ImageSerializer(serializers.ModelSerializer):

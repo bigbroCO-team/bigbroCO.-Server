@@ -8,9 +8,9 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.shortcuts import get_object_or_404
 
-from product import s3
-from product.models import Product
-from product.serializers import ProductSerializer
+from src.app.product import s3
+from src.app.product.models import Product
+from src.app.product.serializers import ProductSerializer
 
 
 # Create your views here.

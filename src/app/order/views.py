@@ -11,8 +11,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from order.models import Order, OrderItem
-from order.serializers import OrderListSerializer, OrderSerializer
+from src.app.order.models import Order, OrderItem
+from src.app.order.serializers import OrderListSerializer, OrderSerializer
 
 
 class OrderListView(APIView):

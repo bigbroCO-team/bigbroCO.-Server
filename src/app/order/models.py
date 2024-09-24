@@ -2,8 +2,8 @@ import datetime
 
 from django.db import models
 
-from product.models import Product, Option
-from user.models import User
+from src.app.product.models import Product, Option
+from src.app.user.models import User
 
 
 # Create your models here.

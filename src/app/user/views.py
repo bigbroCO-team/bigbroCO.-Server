@@ -10,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from config.settings.base import JWT_SECRET, KAKAO_API_KEY, KAKAO_REDIRECT_URI, KAKAO_CLIENT_SECRET, CLIENT_REDIRECT_URL
-from user.models import User
+from src.app.user.models import User
 
 
 # Create your views here

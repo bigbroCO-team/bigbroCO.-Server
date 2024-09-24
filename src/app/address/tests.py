@@ -2,8 +2,8 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 
-from address.models import Address
-from user.models import User
+from src.app.address.models import Address
+from src.app.user import User
 
 
 # Create your tests here.

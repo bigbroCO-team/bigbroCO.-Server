@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from cart.models import Cart
-from cart.serializers import CartSerializer
+from src.app.cart.models import Cart
+from src.app.cart.serializers import CartSerializer
 
 
 # Create your views here.
