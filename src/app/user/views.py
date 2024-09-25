@@ -1,12 +1,26 @@
 import jwt
+from django.db import transaction
+from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiParameter
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from config.settings.base import SECRET_KEY
 
 
-# Create your views here.
+@extend_schema_view(
+    get=extend_schema(
+        summary='Token verify view API',
+        description='Access token 검증 API 입니다.',
+        parameters=[
+            OpenApiParameter(
+                name='Authorization',
+                required=True,
+                location=OpenApiParameter.HEADER
+            )
+        ]
+    ))
 class TokenVerifyView(APIView):
+    @transaction.atomic
     def get(self, request: object) -> Response:
         header = request.headers.get('Authorization')
 
