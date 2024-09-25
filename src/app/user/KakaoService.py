@@ -1,5 +1,5 @@
 import requests
-from django.template.context_processors import static
+from config.exception.CustomException import CustomException
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -32,7 +32,7 @@ class KakaoService:
         )
 
         if response.status_code is not 200:
-            return Response()
+            raise CustomException.KakaoOAuthCodeIsNotValid
         return response.json().get('access_token')
 
     @staticmethod
@@ -44,7 +44,7 @@ class KakaoService:
             }
         )
         if response.status_code is not 200:
-            return Response()
+            raise CustomException.KakaoOAuthAccessTokenIsNotValid
         return response.json().get('kakao_account').get('email')
 
     @staticmethod
