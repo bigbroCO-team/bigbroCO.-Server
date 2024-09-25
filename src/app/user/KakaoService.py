@@ -31,7 +31,7 @@ class KakaoService:
             }
         )
 
-        if response.status_code is not 200:
+        if response.status_code != 200:
             raise CustomException.KakaoOAuthCodeIsNotValid
         return response.json().get('access_token')
 
@@ -43,7 +43,7 @@ class KakaoService:
                 "Authorization": f"Bearer {access_token}"
             }
         )
-        if response.status_code is not 200:
+        if response.status_code != 200:
             raise CustomException.KakaoOAuthAccessTokenIsNotValid
         return response.json().get('kakao_account').get('email')
 
