@@ -17,7 +17,7 @@ services:
       dockerfile: Dockerfile
       context: .
     environment:
-      - DJANGO_SETTINGS_MODULE=config.settings.dev
+      - DJANGO_SETTINGS_MODULE=config.settings.base
     env_file:
       - .env
     command: ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8001", "config.wsgi:application" ]
