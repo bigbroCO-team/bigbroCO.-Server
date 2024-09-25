@@ -18,7 +18,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ~/SSB-Server
+            cd ~/bigbroCO.-Server
             git pull origin develop
             docker-compose down
             docker-compose up -d
