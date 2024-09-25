@@ -1,6 +1,6 @@
 from drf_spectacular.utils import extend_schema_view, extend_schema
 
-from src.app.user.KakaoService import KakaoService
+from src.app.client.user.KakaoService import KakaoService
 from django.db import transaction
 from rest_framework.response import Response
 from rest_framework.views import APIView
