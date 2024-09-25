@@ -2,7 +2,7 @@ name: Develop CD
 
 on:
   workflow_run:
-    workflows: ['Compose CI', 'Python3 CI']
+    workflows: [Develop CI]
     branches: [develop]
     types:
       - completed
