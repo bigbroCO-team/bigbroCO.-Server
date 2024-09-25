@@ -21,6 +21,8 @@ jobs:
             cd ~/bigbroCO.-Server
             git pull origin develop
             docker-compose down
+            docker rm $(docker ps -a -q)
+            docker rmi $(docker images -q)
             docker-compose up -d
 
 
