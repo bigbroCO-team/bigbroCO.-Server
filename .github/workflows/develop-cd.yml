@@ -18,6 +18,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            git config --global --add safe.directory /home/ubuntu/bigbroCO.-Server
             cd ~/bigbroCO.-Server
             git pull origin develop
             docker-compose down
