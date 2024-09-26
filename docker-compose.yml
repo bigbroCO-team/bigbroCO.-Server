@@ -20,7 +20,7 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings.base
     env_file:
       - .env
-    command: ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8001", "config.wsgi:application" ]
+    command: ["sh", "-c", "poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8001 config.wsgi:application"]
 
   prod:
     container_name: prod
@@ -31,4 +31,4 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings.prod
     env_file:
       - .env
-    command: ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8002", "config.wsgi:application"]
+    command: ["sh", "-c", "poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8002 config.wsgi:application"]
