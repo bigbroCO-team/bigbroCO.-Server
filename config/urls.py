@@ -18,8 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
+from config.healthcheck import HealthCheck
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('health-check', HealthCheck.as_view()),
 
     path('auth', include('src.app.client.user.urls')),
     path('address', include('src.app.client.address.urls')),
