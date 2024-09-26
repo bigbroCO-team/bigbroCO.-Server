@@ -1,5 +1,5 @@
 import requests
-from config.exception.CustomException import CustomException
+from config.utils.exception.CustomException import CustomException
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer

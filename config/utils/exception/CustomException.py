@@ -1,4 +1,4 @@
-from config.exception.Exception import BaseCustomException
+from config.utils.exception.Exception import BaseCustomException
 
 class CustomException:
     # Kakao OAuth
