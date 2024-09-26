@@ -12,4 +12,4 @@ RUN poetry install --no-root
 
 ARG DJANGO_SETTINGS_MODULE
 
-RUN ["poetry", "run", "python3", "manage.py", "migrate"]
+RUN ["poetry", "run", "python3", "manage.py", "migrate", "--settings=config.settings.base"]
