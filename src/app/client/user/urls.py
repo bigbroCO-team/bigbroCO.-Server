@@ -1,7 +1,7 @@
 from django.urls import path
 
-from src.app.user.views import TokenVerifyView
-from src.app.user.KakaoView import KakaoSignInView, KakaoSignInCallbackView
+from src.app.client.user.views import TokenVerifyView
+from src.app.client.user.KakaoView import KakaoSignInView, KakaoSignInCallbackView
 
 urlpatterns = [
     path('/verify', TokenVerifyView.as_view(), name='verify'),
