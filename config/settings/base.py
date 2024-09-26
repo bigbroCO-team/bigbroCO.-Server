@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'src.app.client.user',
     'src.app.client.address',
     'src.app.client.product',
+    'src.app.client.cart'
 ]
 
 REST_FRAMEWORK = {
@@ -151,4 +152,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 KAKAO_API_KEY = os.environ.get('KAKAO_API_KEY')
 KAKAO_REDIRECT_URI = os.environ.get('KAKAO_REDIRECT_URI')
 KAKAO_CLIENT_SECRET = os.environ.get('KAKAO_CLIENT_SECRET')
-CLIENT_REDIRECT_URL = os.environ.get('KAKAO_REDIRECT_URL')
+CLIENT_REDIRECT_URL = os.environ.get('CLIENT_REDIRECT_URL')
