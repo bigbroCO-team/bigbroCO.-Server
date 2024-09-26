@@ -32,7 +32,10 @@ class KakaoService:
         )
 
         if response.status_code != 200:
-            raise CustomException.KakaoOAuthCodeIsNotValid
+            return Response({
+                'code': response.status_code,
+                'data': response.json()
+            })
         return response.json().get('access_token')
 
     @staticmethod
