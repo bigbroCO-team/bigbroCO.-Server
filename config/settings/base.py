@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'drf_spectacular',
     'src.app.client.user',
-    'src.app.client.address'
+    'src.app.client.address',
+    'src.app.client.product',
 ]
 
 REST_FRAMEWORK = {

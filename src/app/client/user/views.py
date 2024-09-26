@@ -18,7 +18,8 @@ from config.settings.base import SECRET_KEY
                 location=OpenApiParameter.HEADER
             )
         ]
-    ))
+    )
+)
 class TokenVerifyView(APIView):
     @transaction.atomic
     def get(self, request: object) -> Response:

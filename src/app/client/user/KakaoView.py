@@ -11,7 +11,8 @@ from config.settings.base import KAKAO_REDIRECT_URI, KAKAO_API_KEY
     get=extend_schema(
         summary='Kakao Signin API',
         description='Kakao OAuth login API 입니다. 로그인 성공 시 access, refresh 토큰이 발급됩니다.',
-    ))
+    )
+)
 class KakaoSignInView(APIView):
     def get(self, request: object) -> Response:
         headers = {"Location": f"https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={KAKAO_API_KEY}&redirect_uri={KAKAO_REDIRECT_URI}"}
