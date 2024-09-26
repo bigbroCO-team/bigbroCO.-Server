@@ -47,7 +47,11 @@ class KakaoService:
             }
         )
         if response.status_code != 200:
-            raise CustomException.KakaoOAuthAccessTokenIsNotValid
+            return Response({
+                'code': response.status_code,
+                'data': response.json(),
+                'access': access_token
+            })
         return response.json().get('kakao_account').get('email')
 
     @staticmethod
