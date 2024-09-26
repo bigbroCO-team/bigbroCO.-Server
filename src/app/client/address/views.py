@@ -50,9 +50,7 @@ class AddressView(APIView):
     ),
     delete=extend_schema(
         summary='Delete my address API',
-        description='자신의 집 주소 삭제',
-        request=AddressSerializer,
-        responses=AddressSerializer
+        description='자신의 집 주소 삭제'
     )
 )
 class AddressDetailView(APIView):
