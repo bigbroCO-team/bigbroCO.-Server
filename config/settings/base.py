@@ -155,3 +155,48 @@ KAKAO_API_KEY = os.environ.get('KAKAO_API_KEY')
 KAKAO_REDIRECT_URI = os.environ.get('KAKAO_REDIRECT_URI')
 KAKAO_CLIENT_SECRET = os.environ.get('KAKAO_CLIENT_SECRET')
 CLIENT_REDIRECT_URL = os.environ.get('CLIENT_REDIRECT_URL')
+
+import boto3
+import logging
+
+AWS_LOG_GROUP = os.environ.get('AWS_LOG_GROUP')
+AWS_REGION_NAME = os.environ.get('AWS_REGION_NAME')
+
+boto3_logs_client = boto3.client('logs',region_name=AWS_REGION_NAME)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+        'filters': {
+            'require_debug_false': {
+                '()': 'django.utils.log.RequireDebugFalse',
+            },
+            'require_debug_true': {
+                '()': 'django.utils.log.RequireDebugTrue',
+            },
+        },
+    'formatters': {
+        'aws': {
+            'format': u'%(asctime)s [%(levelname)-8s] %(funcName)s - %(message)s [%(pathname)s:%(lineno)d] ',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+    },
+    'handlers': {
+        'watchtower': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_client': boto3_logs_client,
+            'log_group': AWS_LOG_GROUP,
+            'formatter': 'aws',
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': 'DEBUG',
+            'handlers': ['watchtower'],
+            'propagate': False,
+        },
+    },
+}
+log = logging.getLogger('django')
