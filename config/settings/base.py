@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+import boto3
 import environ
-
+import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -156,47 +157,50 @@ KAKAO_REDIRECT_URI = os.environ.get('KAKAO_REDIRECT_URI')
 KAKAO_CLIENT_SECRET = os.environ.get('KAKAO_CLIENT_SECRET')
 CLIENT_REDIRECT_URL = os.environ.get('CLIENT_REDIRECT_URL')
 
-import boto3
-import logging
+# CloudWatchLogs
 
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_DEFAULT_REGION = os.environ.get('AWS_REGION_NAME')
 AWS_LOG_GROUP = os.environ.get('AWS_LOG_GROUP')
-AWS_REGION_NAME = os.environ.get('AWS_REGION_NAME')
+AWS_LOG_STREAM = os.environ.get('AWS_LOG_STREAM')
 
-boto3_logs_client = boto3.client('logs',region_name=AWS_REGION_NAME)
+boto3_client = boto3.client(
+    's3',
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_DEFAULT_REGION
+)
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-        'filters': {
-            'require_debug_false': {
-                '()': 'django.utils.log.RequireDebugFalse',
-            },
-            'require_debug_true': {
-                '()': 'django.utils.log.RequireDebugTrue',
-            },
-        },
+
     'formatters': {
         'aws': {
-            'format': u'%(asctime)s [%(levelname)-8s] %(funcName)s - %(message)s [%(pathname)s:%(lineno)d] ',
-            'datefmt': '%Y-%m-%d %H:%M:%S'
-        },
+            'format': u"%(asctime)s [%(levelname)-8s] %(funcName)s - %(message)s [%(pathname)s:%(lineno)d]",
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        }
     },
     'handlers': {
-        'watchtower': {
-            'level': 'DEBUG',
-            'filters': ['require_debug_true'],
+        'aws-handler': {
+            'level': 'INFO',
             'class': 'watchtower.CloudWatchLogHandler',
-            'boto3_client': boto3_logs_client,
+            'boto3_client': boto3_client,
             'log_group': AWS_LOG_GROUP,
+            'stream_name': AWS_LOG_STREAM,
             'formatter': 'aws',
+            'use_queues': True,
         },
     },
     'loggers': {
-        'django': {
-            'level': 'DEBUG',
-            'handlers': ['watchtower'],
-            'propagate': False,
-        },
-    },
+        'aws-logger': {
+            'level': 'INFO',
+            'handlers': ['aws-handler'],
+            'propagate': True,
+        }
+    }
 }
-log = logging.getLogger('django')
+
+log = logging.getLogger('default-logger')
+log.info('Bigbro server application run.')
