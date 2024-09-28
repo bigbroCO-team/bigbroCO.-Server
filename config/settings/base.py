@@ -161,7 +161,7 @@ CLIENT_REDIRECT_URL = os.environ.get('CLIENT_REDIRECT_URL')
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_DEFAULT_REGION = os.environ.get('AWS_REGION_NAME')
+AWS_DEFAULT_REGION = 'ap-northeast-2'
 AWS_LOG_GROUP = os.environ.get('AWS_LOG_GROUP')
 AWS_LOG_STREAM = os.environ.get('AWS_LOG_STREAM')
 
