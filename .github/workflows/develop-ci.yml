@@ -40,6 +40,6 @@ jobs:
         echo "SECRET_KEY=$SECRET_KEY" >> .env
         echo "ALLOWED_HOSTS=*" >> .env
         echo "DEBUG=1" >> .env
-        echo "AWS_DEFAULT_REGION=$AWS_REGION_NAME" >> .env
+
     - name: Build Docker Compose services
       run: docker-compose build
