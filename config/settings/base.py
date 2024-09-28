@@ -16,6 +16,8 @@ import boto3
 import environ
 import logging
 
+from django.conf.global_settings import LOGGING
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -172,7 +174,7 @@ boto3_client = boto3.client(
     region_name=AWS_DEFAULT_REGION
 )
 
-LOGGING = {
+_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
 
@@ -204,3 +206,7 @@ LOGGING = {
 
 log = logging.getLogger('default-logger')
 log.info('Bigbro server application run.')
+
+
+if not DEBUG:
+    LOGGING = _LOGGING
