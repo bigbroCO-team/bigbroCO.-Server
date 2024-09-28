@@ -166,7 +166,7 @@ AWS_LOG_GROUP = os.environ.get('AWS_LOG_GROUP')
 AWS_LOG_STREAM = os.environ.get('AWS_LOG_STREAM')
 
 boto3_client = boto3.client(
-    's3',
+    'logs',
     aws_access_key_id=AWS_ACCESS_KEY_ID,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
     region_name=AWS_DEFAULT_REGION
