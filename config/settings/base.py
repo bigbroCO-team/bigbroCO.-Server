@@ -174,7 +174,7 @@ boto3_client = boto3.client(
     region_name=AWS_DEFAULT_REGION
 )
 
-_LOGGING = {
+LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
 
@@ -205,8 +205,3 @@ _LOGGING = {
 }
 
 log = logging.getLogger('default-logger')
-log.info('Bigbro server application run.')
-
-
-if not DEBUG:
-    LOGGING = _LOGGING
