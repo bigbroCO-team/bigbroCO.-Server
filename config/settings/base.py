@@ -16,8 +16,6 @@ import boto3
 import environ
 import logging
 
-from django.conf.global_settings import LOGGING
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
