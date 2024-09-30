@@ -56,9 +56,9 @@ class KakaoService:
         token = TokenObtainPairSerializer.get_token(user)
         return Response(
             headers={
-               # "Location": CLIENT_REDIRECT_URL,
+                'Location': CLIENT_REDIRECT_URL,
                 'access': str(token.access_token),
                 'refresh': str(token)
             },
-          #  status=status.HTTP_302_FOUND,
+            status=status.HTTP_302_FOUND,
         )
