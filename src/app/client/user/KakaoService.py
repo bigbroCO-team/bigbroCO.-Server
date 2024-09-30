@@ -61,6 +61,6 @@ class KakaoService:
             status=status.HTTP_302_FOUND,
         )
 
-        r.set_cookie('access', str(token.access_token), expires=timedelta(minutes=1))
-        r.set_cookie('refresh', str(token), expires=timedelta(minutes=1))
+        r.set_cookie('access', str(token.access_token), expires=timedelta(minutes=1), domain='.bigbro.company')
+        r.set_cookie('refresh', str(token), expires=timedelta(minutes=1), domain='.bigbro.company')
         return r
