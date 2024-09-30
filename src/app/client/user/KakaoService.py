@@ -54,11 +54,13 @@ class KakaoService:
             user = User.objects.create(email=email)
 
         token = TokenObtainPairSerializer.get_token(user)
-        return Response(
+        r = Response(
             headers={
                 'Location': CLIENT_REDIRECT_URL,
-                'access': str(token.access_token),
-                'refresh': str(token)
             },
             status=status.HTTP_302_FOUND,
         )
+
+        r.set_cookie('access', str(token.access_token), expires=timedelta(minutes=1))
+        r.set_cookie('refresh', str(token), expires=timedelta(minutes=1))
+        return r
