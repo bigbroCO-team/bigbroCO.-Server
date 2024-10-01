@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'src.app.client.user',
     'src.app.client.address',
     'src.app.client.product',
+    'src.app.client.cart'
 ]
 
 REST_FRAMEWORK = {
