@@ -8,16 +8,23 @@ class CartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = '__all__'
 
-        extra_kwargs = {
-            'user': {'required': False},
-        }
+
+class CartSerializerWithoutUser(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = ('id', 'product', 'option', 'count')
 
     def create(self, validated_data):
-        exists_cart = Cart.objects.filter(user=validated_data.get('user'))
-        for i, cart in enumerate(exists_cart):
-            if validated_data.get(i) == cart:  # 기존 상품이 존재
-                cart.count += 1
-            else:
-                exists_cart.add(validated_data.get(i))
-        exists_cart.save()
-        return exists_cart
+        user = validated_data.pop('user', None)
+        origin_cart = Cart.objects.filter(
+            user=user,
+            product=validated_data.get('product'),
+            option=validated_data.get('option')
+        ).first()
+
+        if origin_cart:
+            origin_cart.count += 1
+            origin_cart.save()
+            return origin_cart
+        else:
+            return Cart.objects.create(**validated_data)

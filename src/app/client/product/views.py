@@ -3,6 +3,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import AllowAny
+
 from src.app.client.product.models import Product
 from src.app.client.product.serializers import ProductSerializer
 
@@ -14,6 +17,9 @@ from src.app.client.product.serializers import ProductSerializer
     )
 )
 class ProductDetailView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
+
     def get(self, request: object, pk: int) -> Response:
         product = get_object_or_404(Product, pk=pk, is_active=True)
         serializer = ProductSerializer(product)
@@ -27,6 +33,9 @@ class ProductDetailView(APIView):
     )
 )
 class ProductListView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [AllowAny]
+
     def get(self, request: object) -> Response:
         category: str = request.GET.get('category', 'BIGBRO')
         products = Product.objects.filter(category__in=category, is_active=True)
