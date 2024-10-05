@@ -34,3 +34,9 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"{self.user} : {self.product}"
+
+
+    def increase_count(self):
+        self.count += 1
+        self.save()
+        return self

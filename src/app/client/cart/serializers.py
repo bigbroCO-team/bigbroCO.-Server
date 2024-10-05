@@ -23,8 +23,6 @@ class CartSerializerWithoutUser(serializers.ModelSerializer):
         ).first()
 
         if origin_cart:
-            origin_cart.count += 1
-            origin_cart.save()
+            origin_cart.increase_count()
             return origin_cart
-        else:
-            return Cart.objects.create(**validated_data)
+        return Cart.objects.create(**validated_data)
