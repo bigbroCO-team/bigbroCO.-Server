@@ -132,7 +132,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+test.env
 .venv
 env/
 venv/
@@ -392,3 +392,5 @@ poetry.toml
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/git,pycharm,python,django
+
+*.env

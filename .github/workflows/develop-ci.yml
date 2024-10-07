@@ -37,9 +37,17 @@ jobs:
         sudo apt-get update
         sudo apt-get install docker-compose -y
         
-        echo "SECRET_KEY=$SECRET_KEY" >> .env
-        echo "ALLOWED_HOSTS=*" >> .env
-        echo "DEBUG=1" >> .env
+        echo "NGINX_TEST_API_DOMAIN=1.1.1.1" >> nginx.env
+        echo "NGINX_PROD_API_DOMAIN=1.1.1.1" >> nginx.env
+        
+        echo "SECRET_KEY=$SECRET_KEY" >> test.env
+        echo "ALLOWED_HOSTS=*" >> test.env
+        echo "DEBUG=1" >> test.env
+
+        echo "SECRET_KEY=$SECRET_KEY" >> prod.env
+        echo "ALLOWED_HOSTS=*" >> prod.env
+        echo "DEBUG=1" >> test.env
+
 
     - name: Build Docker Compose services
       run: docker-compose build
