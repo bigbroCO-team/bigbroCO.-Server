@@ -4,22 +4,21 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
-    volumes:
-      - ./nginx:/etc/nginx/conf.d
-      - /tmp:/tmp
+    env_file:
+      - nginx.env
     depends_on:
       - prod
-      - dev
+      - test
 
-  dev:
-    container_name: dev
+  test:
+    container_name: test
     build:
       dockerfile: Dockerfile
       context: .
     environment:
-      - DJANGO_SETTINGS_MODULE=config.settings.base
+      - DJANGO_SETTINGS_MODULE=config.settings.test
     env_file:
-      - .env
+      - test.env
     command: ["sh", "-c", "poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8001 config.wsgi:application"]
 
   prod:
@@ -30,5 +29,5 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=config.settings.prod
     env_file:
-      - .env
+      - prod.env
     command: ["sh", "-c", "poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8002 config.wsgi:application"]
