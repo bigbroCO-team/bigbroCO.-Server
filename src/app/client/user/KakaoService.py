@@ -9,7 +9,7 @@ from config.settings.base import (
     KAKAO_REDIRECT_URI,
     KAKAO_API_KEY,
     KAKAO_CLIENT_SECRET,
-    CLIENT_REDIRECT_URL
+    KAKAO_CLIENT_REDIRECT_URL
 )
 
 
@@ -56,7 +56,7 @@ class KakaoService:
         token = TokenObtainPairSerializer.get_token(user)
         r = Response(
             headers={
-                'Location': CLIENT_REDIRECT_URL,
+                'Location': KAKAO_CLIENT_REDIRECT_URL,
             },
             status=status.HTTP_302_FOUND,
         )

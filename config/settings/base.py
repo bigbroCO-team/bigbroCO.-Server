@@ -12,24 +12,24 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
-import boto3
 import environ
-import logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-environ.Env.read_env(os.path.join(BASE_DIR, 'test.env'))
+
+env = os.environ.get('DJANGO_SETTINGS_MODULE').split('.')[-1]
+environ.Env.read_env(os.path.join(BASE_DIR, f'.env.{env}'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', os.urandom(64).hex())
+SECRET_KEY = os.environ.get('SECRET_KEY', os.urandom(24).hex())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -153,7 +153,9 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Kakao OAuth
+KAKAO_CLIENT_REDIRECT_URL = os.environ.get('KAKAO_CLIENT_REDIRECT_URL')
 KAKAO_API_KEY = os.environ.get('KAKAO_API_KEY')
 KAKAO_REDIRECT_URI = os.environ.get('KAKAO_REDIRECT_URI')
 KAKAO_CLIENT_SECRET = os.environ.get('KAKAO_CLIENT_SECRET')
-CLIENT_REDIRECT_URL = os.environ.get('CLIENT_REDIRECT_URL')
+CLIENT_REDIRECT_URL = os.environ.get('PROD_CLIENT_REDIRECT_URL')
