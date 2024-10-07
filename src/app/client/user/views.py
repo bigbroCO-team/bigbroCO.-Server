@@ -4,7 +4,7 @@ from drf_spectacular.utils import extend_schema_view, extend_schema, OpenApiPara
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from config.settings import SECRET_KEY
+from config.settings.base import SECRET_KEY
 
 
 @extend_schema_view(
