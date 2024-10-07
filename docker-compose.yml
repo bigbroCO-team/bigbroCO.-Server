@@ -6,6 +6,8 @@ services:
       - "80:80"
     env_file:
       - nginx.env
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
     depends_on:
       - prod
       - test
