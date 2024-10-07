@@ -1,11 +1,11 @@
 import requests
-from config.utils.exception.CustomException import CustomException
+from config.utils import CustomException
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from src.app.client.user.models import User
 from datetime import timedelta
-from config.settings.base import (
+from config.settings import (
     KAKAO_REDIRECT_URI,
     KAKAO_API_KEY,
     KAKAO_CLIENT_SECRET,
