@@ -17,7 +17,7 @@ class ProductTestCase(APITestCase):
         )
 
     def test_get_product_list(self):
-        path = reverse('product-list')
+        path = reverse('product')
         response = self.client.get(path)
         assert response.status_code == 200
 

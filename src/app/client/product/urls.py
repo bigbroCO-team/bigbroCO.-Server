@@ -7,7 +7,7 @@ urlpatterns = [
     path(
         '',
         ProductListView.as_view(),
-        name='product-list'
+        name='product'
     ),
     path(
         '<int:pk>/',
