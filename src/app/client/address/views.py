@@ -67,4 +67,4 @@ class AddressDetailView(APIView):
     def delete(self, request: object, pk: int) -> Response:
         address = get_object_or_404(Address, pk=pk, user=request.user)
         address.delete()
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)

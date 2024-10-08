@@ -44,9 +44,9 @@ class CartView(APIView):
         serializer = CartSerializerWithoutUser(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_201_CREATED)
 
     def delete(self, request: object, pk: int) -> Response:
         cart = Cart.objects.filter(user=request.user, id=pk)
         cart.delete()
-        return Response(status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_204_NO_CONTENT)
