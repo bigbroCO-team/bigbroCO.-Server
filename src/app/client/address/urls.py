@@ -8,5 +8,5 @@ urlpatterns = [
         AddressView.as_view(),
         name='address',
     ),
-    path('/<int:pk>', AddressDetailView.as_view()),
+    path('<int:pk>/', AddressDetailView.as_view()),
 ]
