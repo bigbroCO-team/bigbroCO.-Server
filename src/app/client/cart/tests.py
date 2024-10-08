@@ -42,4 +42,4 @@ class CartTestCase(APITestCase):
             'count': 1,
         }
         response = self.client.post(path, data=data)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
