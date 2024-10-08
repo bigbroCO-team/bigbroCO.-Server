@@ -4,7 +4,6 @@ from django.urls import reverse
 from src.app.client.product.models import Product
 
 
-# Create your tests here.
 class ProductTestCase(TestCase):
     def setUp(self):
         self.product = Product.objects.create(
