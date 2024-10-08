@@ -1,11 +1,13 @@
 from django.test import TestCase
 from django.urls import reverse
+from rest_framework.test import APIClient, APITestCase
 
 from src.app.client.product.models import Product
 
 
-class ProductTestCase(TestCase):
+class ProductTestCase(APITestCase):
     def setUp(self):
+        self.client = APIClient()
         self.product = Product.objects.create(
             category='CBWAS',
             name='CBWAS',
