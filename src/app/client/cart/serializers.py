@@ -15,9 +15,8 @@ class CartSerializerWithoutUser(serializers.ModelSerializer):
         fields = ('id', 'product', 'option', 'count')
 
     def create(self, validated_data):
-        user = validated_data.pop('user', None)
         origin_cart = Cart.objects.filter(
-            user=user,
+            user=validated_data.get('user'),
             product=validated_data.get('product'),
             option=validated_data.get('option')
         ).first()
