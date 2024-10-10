@@ -173,7 +173,7 @@ cython_debug/
 
 ### Git ###
 # Created by git for backups. To disable backups in Git:
-# $ git config --global mergetool.keepBackup false
+# $ git bigbro --global mergetool.keepBackup false
 *.orig
 
 # Created by git when using merge tools for conflicts
@@ -388,7 +388,7 @@ poetry.toml
 # ruff
 .ruff_cache/
 
-# LSP config files
+# LSP bigbro files
 pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/git,pycharm,python,django

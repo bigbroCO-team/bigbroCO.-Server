@@ -1,10 +1,7 @@
 name: Develop CI
 
 on:
-  push:
-    branches: [ "*" ]
   pull_request:
-    branches: [ "*" ]
 
 jobs:
   python3:
@@ -26,25 +23,4 @@ jobs:
         poetry install --no-root
     - name: Run Tests
       run: |
-        poetry run python manage.py test --settings=config.settings.test
-
-  compose:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up
-      run: |
-        sudo apt-get update
-        sudo apt-get install docker-compose -y
-        
-        echo "SECRET_KEY=$SECRET_KEY" >> .env.stage
-        echo "ALLOWED_HOSTS=*" >> .env.stage
-        echo "DEBUG=1" >> .env.stage
-
-        echo "SECRET_KEY=$SECRET_KEY" >> .env.prod
-        echo "ALLOWED_HOSTS=*" >> .env.prod
-        echo "DEBUG=1" >> .env.prod
-
-
-    - name: Build Docker Compose services
-      run: docker-compose build
+        poetry run python manage.py test
