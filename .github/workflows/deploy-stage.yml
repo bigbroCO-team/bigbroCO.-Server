@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            /app/cd.sh
+            /app/stage/cd.sh
 
       - name: CD Success
         uses: sarisia/actions-status-discord@v1
