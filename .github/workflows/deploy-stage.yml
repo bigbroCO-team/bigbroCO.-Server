@@ -20,9 +20,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            git config --global --add safe.directory /home/ubuntu/bigbroCO.-Server
-            cd /app/bigbroCO.-Server
-            git pull origin develop
             /app/cd.sh
 
       - name: CD Success
