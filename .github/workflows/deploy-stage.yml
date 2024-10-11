@@ -1,0 +1,45 @@
+name: deploy-stage
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    branches:
+      - develop
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            /app/stage/cd.sh
+
+      - name: CD Success
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ success() }}
+        with:
+          title: CD Success!
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          color: 00FF00
+          username: GitHub
+          url: https://github.com/bigbroCO-team/bigbroCO.-Server
+
+      - name: CD Fail
+        uses: sarisia/actions-status-discord@v1
+        if: ${{ failure() }}
+        with:
+          title: CD Fail!
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          color: FF0000
+          username: GitHub
+          url: https://github.com/bigbroCO-team/bigbroCO.-Server
