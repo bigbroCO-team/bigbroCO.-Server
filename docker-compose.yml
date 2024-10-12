@@ -1,0 +1,46 @@
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - stage
+      - prod
+
+  stage:
+    container_name: stage
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=bigbro.settings-stage
+    env_file:
+      - .env
+    command: ["poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8001 config.wsgi:application"]
+
+  stage-postgres:
+    image: postgres:15
+    restart: always
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
+  prod:
+    container_name: prod
+    build:
+      dockerfile: Dockerfile
+      context: .
+    environment:
+      - DJANGO_SETTINGS_MODULE=bigbro.settings-prod
+    env_file:
+      - .env
+    command: ["poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8002 config.wsgi:application"]
+
+volumes:
+  stage_pg_data:

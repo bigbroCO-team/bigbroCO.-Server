@@ -15,10 +15,10 @@ ALLOWED_HOSTS += [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('AWS_RDS_DATABASE'),
-        'USER': os.getenv('AWS_RDS_USER_ID'),
-        'PASSWORD': os.getenv('AWS_RDS_PW'),
-        'HOST': os.getenv('AWS_RDS_HOST'),
-        'PORT': os.getenv('AWS_RDS_PORT'),
+        'NAME': os.getenv('LOCAL_RDS_DATABASE'),
+        'USER': os.getenv('LOCAL_RDS_USER_ID'),
+        'PASSWORD': os.getenv('LOCAL_RDS_PW'),
+        'HOST': os.getenv('LOCAL_RDS_HOST'),
+        'PORT': os.getenv('LOCAL_RDS_PORT'),
     }
 }
