@@ -1,9 +1,9 @@
-name: deploy-stage
+name: Develop CD
 
 on:
   workflow_run:
     workflows:
-      - CI
+      - ci
     branches:
       - develop
     types:
@@ -20,6 +20,13 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            cd ~/bigbroCO.-Server
+            git pull origin develop
+            docker-compose down
+            docker rm $(docker ps -a -q)
+            docker rmi $(docker images -q)
+            docker-compose up -d
+
 
       - name: CD Success
         uses: sarisia/actions-status-discord@v1
