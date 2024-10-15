@@ -3,9 +3,10 @@ import environ
 from .settings import *
 
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env.prod'))
+
 DEBUG = False
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env.prod'))
 
 ALLOWED_HOSTS += [
 
@@ -20,5 +21,45 @@ DATABASES = {
         'PASSWORD': os.getenv('AWS_RDS_PW'),
         'HOST': os.getenv('AWS_RDS_HOST'),
         'PORT': os.getenv('AWS_RDS_PORT'),
+    }
+}
+
+
+AWS_REGION_NAME = os.environ.get('AWS_REGION_NAME')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_LOG_GROUP_NAME = os.environ.get('AWS_LOG_GROUP_NAME')
+
+boto3_logs_client = boto3.client(
+    "logs",
+    region_name=AWS_REGION_NAME,
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['watchtower', 'console'],
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'watchtower': {
+            'class': 'watchtower.CloudWatchLogHandler',
+            'boto3_client': boto3_logs_client,
+            'log_group_name': AWS_LOG_GROUP_NAME,
+            'level': 'DEBUG',
+        }
+    },
+    'loggers': {
+        'django': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False
+        }
     }
 }
