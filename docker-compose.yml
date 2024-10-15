@@ -16,20 +16,8 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=bigbro.settings-stage
     env_file:
-      - .env
-    command: ["poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8001 config.wsgi:application"]
-
-  stage-postgres:
-    image: postgres:15
-    restart: always
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      - .env.stage
+    command: ["poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8001 bigbro.wsgi:application"]
 
   prod:
     container_name: prod
@@ -39,8 +27,8 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=bigbro.settings-prod
     env_file:
-      - .env
-    command: ["poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8002 config.wsgi:application"]
+      - .env.prod
+    command: ["poetry run python3 manage.py migrate && poetry run gunicorn --bind 0.0.0.0:8002 bigbro.wsgi:application"]
 
 volumes:
   stage_pg_data:
