@@ -2,8 +2,11 @@ import os
 
 import environ
 import boto3
+from django.urls import path
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from .settings import *
+from .urls import urlpatterns
 
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env.stage'))
@@ -11,8 +14,14 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env.stage'))
 DEBUG = False
 
 ALLOWED_HOSTS += [
-
+    'stage.api.bigbro.company'
 ]
+
+urlpatterns += [
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+]
+
 
 AWS_REGION_NAME = os.environ.get('AWS_REGION_NAME')
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')

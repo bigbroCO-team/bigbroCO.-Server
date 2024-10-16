@@ -1,3 +1,4 @@
+import boto3
 import environ
 
 from .settings import *
@@ -9,7 +10,7 @@ DEBUG = False
 
 
 ALLOWED_HOSTS += [
-
+    'api.bigbro.company'
 ]
 
 # RDS
