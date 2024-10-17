@@ -12,11 +12,18 @@ ALLOWED_HOSTS = [
     'stage.api.bigbro.company'
 ]
 
+# AWS
 AWS_REGION_NAME = os.environ.get('AWS_REGION_NAME')
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_LOG_GROUP_NAME = os.environ.get('AWS_LOG_GROUP_NAME')
 
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_FILE_OVERWRITE = False
+
+
+# Cloudwatch
 boto3_logs_client = boto3.client(
     "logs",
     region_name=AWS_REGION_NAME,
@@ -50,3 +57,18 @@ LOGGING = {
         }
     }
 }
+
+# S3
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+}
+
+ADMIN_MEDIA_PREFIX = 'admin/'
+STATIC_URL = 'static/'
+IMAGE_ROOT = 'image/'
+

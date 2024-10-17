@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # add-on
     'rest_framework',
     'rest_framework_simplejwt',
+    'storages',
     # swagger
     'drf_spectacular',
     # apps
