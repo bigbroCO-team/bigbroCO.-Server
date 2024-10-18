@@ -138,6 +138,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+ADMIN_MEDIA_PREFIX = 'admin/'
+STATIC_URL = 'static/'
+IMAGE_ROOT = 'image/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

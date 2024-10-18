@@ -29,7 +29,6 @@ AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_LOG_GROUP_NAME = os.environ.get('AWS_LOG_GROUP_NAME')
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % os.getenv("AWS_STORAGE_BUCKET_NAME")
 AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 AWS_S3_FILE_OVERWRITE = False
 
@@ -78,7 +77,4 @@ STORAGES = {
     },
 }
 
-ADMIN_MEDIA_PREFIX = 'admin/'
-STATIC_URL = 'static/'
-IMAGE_ROOT = 'image/'
 

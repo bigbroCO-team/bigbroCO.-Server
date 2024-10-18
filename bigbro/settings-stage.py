@@ -67,8 +67,3 @@ STORAGES = {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
 }
-
-ADMIN_MEDIA_PREFIX = 'admin/'
-STATIC_URL = 'static/'
-IMAGE_ROOT = 'image/'
-
