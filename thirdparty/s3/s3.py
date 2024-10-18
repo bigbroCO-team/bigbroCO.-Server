@@ -25,6 +25,8 @@ class S3Client:
             save = default_storage.save(join_path, image)
             s3path = f'https://{bucket_domain}/{save}'
         except Exception as e:
+            from django.contrib.admin.templatetags import log
+            log.error('S3 error')
             raise CustomException.S3UnExpectedError
 
         return s3path
