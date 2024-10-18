@@ -4,10 +4,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 from product.models import Product
 from product.serializers import ProductSerializer
+from thirdparty.s3.s3 import S3Client
+
 
 @extend_schema_view(
     get=extend_schema(
@@ -41,3 +43,14 @@ class ProductListView(APIView):
         products = Product.objects.filter(category__in=category, is_active=True)
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class ImageUploadView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
+    def post(self, request: object) -> Response:
+        images = request.FILE.get('image')
+        response_data: dict[str, str]
+        for image in images:
+            url = S3Client.upload(image)
+            response_data

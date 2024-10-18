@@ -1,33 +1,29 @@
-import os
-
 import environ
 import boto3
-from django.urls import path
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from .settings import *
-from .urls import urlpatterns
 
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env.stage'))
 
 DEBUG = False
 
-ALLOWED_HOSTS += [
+ALLOWED_HOSTS = [
     'stage.api.bigbro.company'
 ]
 
-urlpatterns += [
-    path('schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('swagger/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-]
-
-
+# AWS
 AWS_REGION_NAME = os.environ.get('AWS_REGION_NAME')
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_LOG_GROUP_NAME = os.environ.get('AWS_LOG_GROUP_NAME')
 
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % os.getenv("AWS_STORAGE_BUCKET_NAME")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
+AWS_S3_FILE_OVERWRITE = False
+
+
+# Cloudwatch
 boto3_logs_client = boto3.client(
     "logs",
     region_name=AWS_REGION_NAME,
@@ -60,4 +56,14 @@ LOGGING = {
             'propagate': False
         }
     }
+}
+
+# S3
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+    },
 }

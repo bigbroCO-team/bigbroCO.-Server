@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 import django
-django.setup()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +40,7 @@ INSTALLED_APPS = [
     # add-on
     'rest_framework',
     'rest_framework_simplejwt',
+    'storages',
     # swagger
     'drf_spectacular',
     # apps
@@ -138,6 +138,9 @@ USE_I18N = True
 
 USE_TZ = True
 
+ADMIN_MEDIA_PREFIX = 'admin/'
+STATIC_URL = 'static/'
+IMAGE_ROOT = 'image/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

@@ -4,3 +4,6 @@ class CustomException:
     # Kakao OAuth
     KakaoOAuthCodeIsNotValid = BaseCustomException(code=400, detail='Kakao OAuth code is not valid.')
     KakaoOAuthAccessTokenIsNotValid = BaseCustomException(code=400, detail='Kakao OAuth access token is not valid.')
+
+    # S3
+    S3UnExpectedError = BaseCustomException(code=500, detail='S3 Unexpected Error.')
